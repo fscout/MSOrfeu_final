@@ -1,0 +1,28 @@
+PASSO A PASSO NO BASH
+ 
+1º CRIAR O AMBIENTE VIRTUAL --- virtualenv venv
+2º ATIVAR O AMBIENTE VIRTUAL --- source venv/Scripts/activate
+3º INSTALAR AS BIBLIOTECAS --- pip install -r requirements.txt
+4º APLICAR OS COMANDOS ABAIXO:
+
+source venv/Scripts/activate 
+python run.py db init
+python run.py db migrate
+python run.py db upgrade
+python run.py runserver
+
+
+source venv/Scripts/activate
+python run.py runserver
+
+
+Usuário para acessar a aplicação 
+
+Usuário --> marcio
+senha --> 007
+
+
+
+
+
+

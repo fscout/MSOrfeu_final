@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <!-- Definir um nome mais genérico -->
+  <title>Cadastro de Produto</title>
+
+  <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/teste1.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+  <script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
+
+
+</head>
+
+<body>
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalProduto">
+    Cadastrar Produto
+  </button>
+
+  <div class="modal fade" id="modalProduto" tabindex="-1" role="dialog" aria-labelledby="modalProdutoTitle"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modalProdutoLongTitle" id="tituloProd">Cadastro de Produtos</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <form action="/add_produto" method="POST">
+
+            <div class="form-group col-md-4">
+              <label class="fill2" for="codigo_barras">Código Barras:</label>
+              <input type="text" class="form-control" id="codigo_barras" name="codigo_barras" required maxlength="13">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label class="fill2" for="descricao_produto">Descricao:</label>
+              <input type="text" class="form-control convertePMaiuscula" id="descricao_produto" name="descricao_produto"
+                required onchange="converteParaMaiuscula()">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label class="fill2" for="quantidade_produto">Quantidade:</label>
+              <input type="number" class="form-control" id="quantidade_produto" name="quantidade_produto" required>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label class="fill2" for="quantidade_minima">Quant. Mínima:</label>
+              <input type="number" class="form-control" id="quantidade_minima" name="quantidade_minima" required
+                value="0">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label class="fill2" for="quantidade_maxima">Quant. Máxima:</label>
+              <input type="number" class="form-control" id="quantidade_maxima" name="quantidade_maxima" required
+                value="0">
+            </div>
+            <div class="form-group col-md-4">
+              <label class="fill2" for="peso_liquido">Peso Liquido:</label>
+              <input type="text" class="form-control" id="peso_liquido" name="peso_liquido" value=0>
+            </div>
+            <div class="form-group col-md-4">
+              <label class="fill2" for="peso_bruto">Peso Bruto:</label>
+              <input type="text" class="form-control" id="peso_bruto" name="peso_bruto" value=0>
+            </div>
+
+            <!--implementar código para converter . para , e só então mandar para o back-->
+            <div class="form-group col-md-4">
+              <label class="fill2" for="preco_custo">Preço Custo:</label>
+              <input type="text" class="form-control" id="preco_custo" name="preco_custo" required>
+            </div>
+
+            <!--implementar código para converter . para , e só então mandar para o back-->
+            <div class="form-group col-md-4">
+              <label class="fill2" for="preco_venda">Preço Venda:</label>
+              <input type="text" class="form-control" id="preco_venda" name="preco_venda" required>
+            </div>
+
+    <!--Caso o usuário não escolha categoria, verificar como trataremos-->
+    <div class="form-group col-md-4">
+      <label class="fill2" for="id_categoria">Categorias:</label>
+      <select class="form-select id_categ_select" aria-label="Default select example" id="id_categ_select" onchange="add_categoria()">
+        <!-- <option selected>Escolha uma Categoria</option> -->
+        {% for c in categorias %}
+        <option value="{{c.id}}">{{c.nome_categoria}}</option>
+        {% endfor %}
+      </select>
+      <!--Definiremos um valor default para categoria, ou seja, caso o usuário não selecione nenhuma categoria cadastraremos uma categoria padrão-->
+      <input type="number" class="form-control id_categoria" id="id_categoria" name="id_categoria" value=1 hidden>
+
+    </div>
+
+    <div class="form-group col-md-4">
+      <label class="fill2" for="id_marca">Marca:</label>
+      <select class="form-select id_marca_select" aria-label="Default select example" id="id_marca_select" onchange="add_marca()">
+        <!-- <option selected>Escolha uma Marca</option> -->
+        {% for m in marcas %}
+        <option value="{{m.id}}">{{m.nome_marca}}</option>
+        {% endfor %}
+      </select>
+
+      <!--Definiremos um valor default para categoria, ou seja, caso o usuário não selecione nenhuma categoria cadastraremos uma categoria padrão-->
+      <input type="number" class="form-control id_marca" id="id_marca" name="id_marca" value=1 hidden>
+
+    </div>
+
+    <div class="form-group col-md-4">
+      <label class="fill2" for="id_medida">Medida:</label>
+
+      <select class="form-select id_medida_select" aria-label="Default select example" id="id_medida_select" onchange="add_medida()">
+        <!-- <option selected>Escolha uma Medida</option> -->
+        {% for m in medidas %}
+        <option value="{{m.id}}">{{m.nome_medida}}</option>
+        {% endfor %}
+      </select>
+
+      <!--Definiremos um valor default para categoria, ou seja, caso o usuário não selecione nenhuma categoria cadastraremos uma categoria padrão-->
+      <input type="number" class="form-control id_medida" id="id_medida" name="id_medida" value=1 hidden>
+
+    </div>
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+
+          </form>
+
+
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+          <ul class=flashes>
+            {% for message in messages %}
+
+            {% if message %}
+            <p id="produto_ja_existe" class="hider">{{message}}</p>
+            <script>
+              produto_ja_existe = document.getElementById('produto_ja_existe')
+              alert(produto_ja_existe.innerText)
+            </script>
+            {% endif %}
+            {% endfor %}
+          </ul>
+          {% endif %}
+          {% endwith %}
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ************************************************* -->
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categorias">
+    Cadastrar Categoria
+  </button>
+
+  <!-- Modal Categoria -->
+  <div class="modal fade" id="categorias" tabindex="-1" role="dialog" aria-labelledby="categoriasLabel"
+    aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="categoriasLabel">Cadastro de Categorias</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <form action="/add_categoria" method="POST">
+
+            <div class="form-group col-md-4">
+
+              <label class="fill2" for="nome_categoria">Nome da Categoria:</label>
+
+              <input type="text" class="form-control convertePMaiuscula" id="nome_categoria" name="nome_categoria"
+                required onchange="converteParaMaiuscula()" maxlength="30">
+            </div>
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-primary" onclick="pega_valor()">Cadastrar Categoria</button>
+            
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ************************************************* -->
+
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#marcas">
+    Cadastrar Marca
+  </button>
+
+  <!-- Modal Marca -->
+  <div class="modal fade" id="marcas" tabindex="-1" role="dialog" aria-labelledby="marcasLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="marcasLabel">Cadastro de Marcas</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form action="/add_marca" method="POST">
+            <div class="form-group col-md-4">
+              <label class="fill2" for="nome_marca">Nome da Marca:</label>
+              <input type="text" class="form-control convertePMaiuscula" id="nome_marca" name="nome_marca" required
+                onchange="converteParaMaiuscula()" maxlength="30">
+            </div>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-primary" onclick="pega_valor()">Cadastrar Marca</button>
+            
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ************************************************* -->
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#medidas">
+    Cadastrar Medida
+  </button>
+
+  <!-- Modal Medida -->
+  <div class="modal fade" id="medidas" tabindex="-1" role="dialog" aria-labelledby="medidasLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="medidasLabel">Cadastro de Medidas</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <form action="/add_medida" method="POST">
+            <div class="form-group col-md-4">
+              <label class="fill2" for="nome_medida">Nome da Medida:</label>
+              <input type="text" class="form-control convertePMaiuscula" id="nome_medida" name="nome_medida" required
+                onchange="converteParaMaiuscula()" maxlength="30">
+            </div>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-primary" onclick="pega_valor()">Cadastrar Medida</button>
+            
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ************************************************* -->
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#usuario">
+    Cadastrar Usuário
+  </button>
+
+  <!-- Modal Medida -->
+  <div class="modal fade" id="usuario" tabindex="-1" role="dialog" aria-labelledby="usuarioLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h5 class="modal-title" id="usuarioLabel">Cadastro de Usuários</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <form action="/add_usuario" method="POST">
+            <div class="form-group col-md-4">
+              <label class="fill2" for="nome">NOME:</label>
+              <input type="text" class="form-control" id="nome" name="nome" required maxlength="50" minlength="4">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label class="fill2" for="telefone">TELEFONE:</label>
+              <input type="text" class="form-control" id="telefone" name="telefone" required maxlength="11"
+                minlength="10">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label class="fill2" for="email">EMAIL:</label>
+              <input type="email" class="form-control" id="email" name="email" required maxlength="50">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label class="fill2" for="login">LOGIN:</label>
+              <input type="text" class="form-control" id="login" name="login" required maxlength="25" minlength="4">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label class="fill2" for="senha">SENHA:</label>
+              <input type="password" class="form-control" id="senha" name="senha" required maxlength="30" minlength="8">
+            </div>
+
+            <input type="number" class="form-control" id="id_nivel_acesso_id" name="id_nivel_acesso_id" required
+              value="2" hidden>
+
+
+
+            <select class="form-select" aria-label="Default select example" id="id_nivel_select" onchange="add_nivel()">
+              <option selected>Escolha um nivel de acesso</option>
+              {% for n in niveis %}
+              <option value="{{n.id}}">{{n.nivel_acesso}}</option>
+              {% endfor %}
+            </select>
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ************************************************* -->
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cliente">
+    Cadastrar Cliente
+  </button>
+
+  <!-- Modal Medida -->
+  <div class="modal fade" id="cliente" tabindex="-1" role="dialog" aria-labelledby="clienteLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h5 class="modal-title" id="clienteLabel">Cadastro de Clientes</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+
+          <form action="/add_cliente" method="POST">
+
+
+
+            <div class="form-group col-md-4">
+                <label class="fill2" for="nome">NOME:</label>
+                <input type="text" class="form-control" id="nome" name="nome" required maxlength="50" minlength="4">
+              </div>
+    
+              <div class="form-group col-md-4">
+                <label class="fill2" for="telefone">TELEFONE:</label>
+                <input type="text" class="form-control" id="telefone" name="telefone" required maxlength="11" minlength="10">
+              </div>
+    
+              <div class="form-group col-md-4">
+                <label class="fill2" for="data_pagamento">DATA PAGAMENTO:</label>
+                <input type="date" class="form-control" id="data_pagamento" name="data_pagamento" required>
+              </div>
+    
+              <div class="form-group col-md-4">
+                <label class="fill2" for="cpf">CPF:</label>
+                <input type="text" class="form-control" id="cpf" name="cpf" maxlength="11" minlength="11">
+              </div>
+    
+              <div class="form-group col-md-4">
+                <label class="fill2" for="observacao">OBSERVACAO:</label>
+                <textarea name="observacao" id="observacao" cols="30" rows="10"></textarea>
+              </div>
+
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              <button type="submit" class="btn btn-primary">Cadastrar Cliente</button>
+    </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- ************************************************* -->
+
+
+
+
+
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/popper.js')}}"></script>
+
+</body>
+
+</html>

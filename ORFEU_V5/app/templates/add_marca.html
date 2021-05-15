@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ super() }} - Adicionar Produto
+{% endblock title %}
+
+
+{% block main %}
+
+<!-- <p class="ocultar nivel">{{current_user.nivel_acesso}}</p>
+
+
+<div class="container hider" align="center"> -->
+
+
+<div class="container" align="center">
+
+  <h1 align="center" class="fill2">Cadastrar Marca</h1>
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#marcas">
+    Adicionar Marca
+  </button>
+
+  <!-- Modal Marca -->
+  <div class="modal fade" id="marcas" tabindex="-1" role="dialog" aria-labelledby="marcasLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="marcasLabel">Nome da Marca</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form action="/add_marca" method="POST">
+            <div class="form-group col-md-4">
+              <label class="fill2" for="nome_marca">Marca:</label>
+              <input type="text" class="form-control convertePMaiuscula" id="nome_marca" name="nome_marca" required onchange="converteParaMaiuscula()" maxlength="30">
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="pega_valor()">Adicionar Marca</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </form>
+        </div>
+
+
+
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Adicionar Marca</button>
+        </div> -->
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+<p></p>
+
+
+  <div class="form-group col-md-4">
+    <label class="fill2" for="marca">Marcas Cadastradas:</label>
+      <select name="" id="">
+        {% for m in marcas %}
+        <option value="">{{m.nome_marca}}</option>
+        {% endfor %}
+    </select>
+
+  </div>
+
+
+
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      
+      {% if message %}
+        <p id="produto_ja_existe" class="hider">{{message}}</p>
+        <script>
+          produto_ja_existe = document.getElementById('produto_ja_existe')
+          alert(produto_ja_existe.innerText)
+        </script>
+      {% endif %}
+    {% endfor %} 
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
+
+  <!-- <script src="{{ url_for('static', filename='js/verifica_acesso.js')}}"></script> -->
+
+</div>
+
+
+
+
+
+
+
+{% endblock main %}

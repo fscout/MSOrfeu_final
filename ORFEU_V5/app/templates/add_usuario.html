@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ super() }} - Adicionar Usuário
+{% endblock title %}
+
+{% block main %}
+
+<!-- <p class="ocultar nivel">{{current_user.nivel_acesso}}</p>
+
+<div class="container hider" align="center"> -->
+
+
+<div class="container" align="center">
+    <h1 align="center" class="fill2">Cadastrar Usuário</h1>
+
+
+<form action="/add_usuario" method="POST">
+        <div class="form-group col-md-4">
+            <label class="fill2" for="nome">NOME:</label>
+            <input type="text" class="form-control" id="nome" name="nome" required maxlength="50" minlength="4">
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="fill2" for="telefone">TELEFONE:</label>
+            <input type="text" class="form-control" id="telefone" name="telefone" required maxlength="11" minlength="10">
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="fill2" for="email">EMAIL:</label>
+            <input type="email" class="form-control" id="email" name="email" required maxlength="50">
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="fill2" for="login">LOGIN:</label>
+            <input type="text" class="form-control" id="login" name="login" required maxlength="25" minlength="4">
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="fill2" for="senha">SENHA:</label>
+            <input type="password" class="form-control" id="senha" name="senha" required maxlength="30" minlength="8">
+          </div>
+  
+          <!-- <div class="form-group col-md-4">
+            <label class="fill2" for="status">STATUS:</label>
+            <input type="text" class="form-control" id="status" name="status">
+          </div> -->
+  
+
+            <input type="number" class="form-control" id="id_nivel_acesso_id" name="id_nivel_acesso_id" required value="2" hidden>
+ 
+
+
+          <select class="form-select" aria-label="Default select example" id="id_nivel_select" onchange="add_nivel()">
+            <option selected>Escolha um nivel de acesso</option>
+            {% for n in niveis %}
+            <option value="{{n.id}}">{{n.nivel_acesso}}</option>
+            {% endfor %}
+          </select>
+
+
+
+
+
+          <a href="/usuario_cadastrados"><button type="button" class="btn btn-danger">Cancelar</button></a>
+          <button type="submit" class="btn btn-primary">Cadastrar</button>
+
+</form>
+
+
+
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
+<!-- <script src="{{ url_for('static', filename='js/verifica_acesso.js')}}"></script> -->
+</div>
+{% endblock main %} 

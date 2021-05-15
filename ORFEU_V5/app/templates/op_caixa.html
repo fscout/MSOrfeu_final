@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ super() }} - Operador de Caixa
+{% endblock title %}
+
+{% if current_user.is_authenticated %}
+{% block main %}
+
+<div class="container" align="center">
+    <h1>Caixa</h1>
+</div>
+{% endblock main %}
+
+{% else %}
+<li><a class="fill" href="{{ url_for('login') }}">Login</a></li>
+{% endif %}

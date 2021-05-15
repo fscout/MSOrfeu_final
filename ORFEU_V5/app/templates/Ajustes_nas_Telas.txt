@@ -1,0 +1,46 @@
+--- GERAL ---
+
+Teremos que remover a possibilidade de excluir os cliente, pois ele estarão associados as vendas.
+OBS: Verificar o que de fato poderemos ou não exluir.
+
+Acrescentar em todas as telas o logotipo e o logoff, a data e hora
+
+Estilizar todos os modais de cadastros.
+
+Exibir mensagens como: "cadastrado com sucesso", "Esse registro já existe"...
+
+Telas de edição tbm serão em modais? Se sim, já estão prontas e como redirecionar as informações para o modal
+
+
+--- PRODUTO ---
+
+* Tratar no js para que o usuário não digite nomes, mais de um ponto (...) ou virgula (,,,) nos campos preco_custo, preco_venda, peso_liquido e peso_bruto, por exemplo, o usuário não pode digitar casa ao invés de 1,50 ou digitar 1,,,5, 5....6 e etc.
+
+
+Converter virgula (,) para ponto (.) com js para os campos abaixo:
+preco_custo
+preco_venda
+peso_liquido
+peso_bruto
+
+Colocar o carrinho de compra.
+
+
+Limitar os campos abaixo para não dá erro de tamanho
+
+quantidade minima e máxima
+
+Ex: se colocarmos 8888888888 dará erro
+
+
+--- LOGIN ---
+
+Colocar o olho para exibir a senha
+
+Estilizar a letra de uma forma menos formal.
+
+
+--- VENDA ---
+
+
+

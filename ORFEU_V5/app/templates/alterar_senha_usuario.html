@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ super() }} - Alterar Senha - Usuário
+{% endblock title %}
+
+{% block main %}
+
+<!-- <p class="ocultar nivel">{{current_user.nivel_acesso}}</p>
+
+<div class="container hider" align="center"> -->
+
+
+<div class="container" align="center">
+        <h1 align="center"> Alterar Senha: {{usuario.nome}}</h1>
+
+
+        <form action="/alterar_senha_2/{{usuario.id}}" method="POST">
+
+              <div class="form-group col-md-4">
+                <!-- <label for="senha_atual">SENHA STUAL</label>
+                <input type="password" class="form-control" id="senha_atual" name="senha_atual" value="{{usuario.senha}}" required maxlength="30" minlength="8" disabled>
+              </div> -->
+
+              <div class="form-group col-md-4">
+                <label for="senha">Digite uma nova senha!</label>
+                <input type="password" class="form-control" id="senha" name="senha" required maxlength="30" minlength="8">
+              </div>
+
+              <!-- <div class="form-group col-md-4">
+                <label for="senha_01">SENHA</label>
+                <input type="password" class="form-control" id="senha_01" name="senha_01" required maxlength="30" minlength="8">
+              </div> -->
+            <button type="submit" class="btn btn-dark">Alterar Senha</button>
+
+<!-- 
+            <script src="{{ url_for('static', filename='js/verifica_acesso.js')}}"></script> -->
+          </div>
+{% endblock main %} 

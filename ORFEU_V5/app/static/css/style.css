@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+ }
+ nav, ul {
+     list-style: none;
+ }
+ a {
+     text-decoration: none;
+     cursor: pointer;
+     opacity: 0.9;
+ }
+ a:hover {
+     opacity: 1;
+ }
+ 
+ /* HEADER */
+ header {
+     background-color: #1d1a1a;
+     width: 100%;
+     position: absolute;
+     top: 0;
+     left: 0;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 25px 100px;
+ }
+ 
+ header img {
+     width: 80px;
+     height: 75px;
+ }
+ 
+ header nav {
+     display: flex;
+ }
+ header li a {
+     color: #191c03;
+ }
+ header li {
+     margin: 0 15px;
+ }
+ header li:first-child {
+     margin-left: 0;
+ }
+ header li:last-child {
+     margin-right: 0px;
+ }
+ @media (max-width: 700px) {
+     header {
+         flex-direction: column;
+     }
+     header img {
+         margin-bottom: 15px;
+     }
+    }
+
+    
+.fill {
+    background: -webkit-linear-gradient(left, #33bdff 0%, #00ffff 100%);
+    background: linear-gradient(right, #33bdff 0%, #00ffff 100%);
+    -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+}
+
+.fill2 {
+    background: -webkit-linear-gradient(left, #0000b9 0%, rgb(50, 115, 255) 100%);
+    background: linear-gradient(right, #0000b9 0%, rgb(50, 115, 255) 100%);
+    -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+}
+
+ .container {
+     margin-top: 10%;
+     border: solid 2px rgb(51, 48, 48);
+     padding: 10px;
+     box-shadow: 2px 1px 2px 1px;
+ }
+
+ @media (max-width: 1024px) {
+    .container {
+        margin-top: 20%;
+        padding: 10px;
+    }
+   }
+
+ @media (max-width: 760px) {
+    .container {
+        margin-top: 25%;
+        padding: 10px;
+    }
+   }
+ @media (max-width: 640px) {
+    .container {
+        margin-top: 35%;
+        padding: 10px;
+    }
+   }
+
+.dflex {
+    margin-top: 10%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.consulta {
+    background-color: rgb(30, 218, 218);
+}
+
+.resultado {
+    background-color: rgb(160, 160, 37);
+}
+
+
+/*Classe genérica para ocultar os elementos*/
+.ocultar {
+    display: none;
+}
+/*A classe abaixo serve para ocultar o conteúdo de uma página que o usuário não tem acesso.*/
+.hider {
+    display: none;
+}

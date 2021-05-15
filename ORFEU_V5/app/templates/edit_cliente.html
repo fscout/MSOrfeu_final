@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ super() }} - Editar Cliente
+{% endblock title %}
+
+{% block main %}
+
+<!-- <p class="ocultar nivel">{{current_user.nivel_acesso}}</p>
+
+<div class="container hider" align="center"> -->
+
+
+  <!-- nome
+  telefone
+  data_pagamento
+  cpf
+  observacao
+
+  NOME
+  TELEFONE
+  DATA PAGAMENTO
+  CPF
+  OBSERVACAO -->
+
+
+<div class="container" align="center">
+        <h1 align="center">Editar Cliente: {{cliente.nome}}</h1>
+
+        <form action="/edit_cliente/{{cliente.id}}" method="POST">
+    
+              <div class="form-group col-md-4">
+                <label for="nome">NOME</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="{{cliente.nome}}" required maxlength="50" minlength="4">
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="telefone">TELEFONE</label>
+                <input type="text" class="form-control" id="telefone" name="telefone" value="{{cliente.telefone}}" required maxlength="11" minlength="10">
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="data_pagamento">DATA PAGAMENTO</label>
+                <input type="text" class="form-control" id="data_pagamento" name="data_pagamento" value="{{cliente.data_pagamento}}" disabled>
+                <p></p>
+                <input type="date" class="form-control" id="data_pagamento" name="data_pagamento">
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="cpf">CPF</label>
+                <input type="text" class="form-control" id="cpf" name="cpf" value="{{cliente.cpf}}" maxlength="11" minlength="11">
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="observacao">OBSERVACAO</label>
+                <textarea name="observacao" id="observacao" cols="30" rows="10">{{cliente.observacao}}</textarea>
+              </div>
+
+
+              <a href="/clientes_cadastrados"><button type="button" class="btn btn-danger">Cancelar</button></a>
+            <button type="submit" class="btn btn-dark">Alterar Cliente</button>
+
+
+          </form>
+
+<!-- 
+            <script src="{{ url_for('static', filename='js/verifica_acesso.js')}}"></script> -->
+          </div>
+{% endblock main %} 

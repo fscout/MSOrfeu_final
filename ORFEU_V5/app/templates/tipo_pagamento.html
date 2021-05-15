@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ super() }} - Adicionar Produto
+{% endblock title %}
+
+
+{% block main %}
+
+<div class="container" align="center">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categorias">
+        Adicionar Categoria
+      </button>
+
+
+       <!-- Modal Categoria -->
+  <div class="modal fade" id="categorias" tabindex="-1" role="dialog" aria-labelledby="categoriasLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="categoriasLabel">Pagamento</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-header">
+        <p>Total a Pagar</p>
+        <input type="text" value="50,00" disabled>
+      </div>
+
+
+
+
+
+      <div class="modal-body">
+        <form action="/add_categoria" method="POST">
+
+
+
+            {% for tipo_pag in tipo_pagamentos %}
+            <div class="modal-header">
+              <p>{{tipo_pag.tipo_pagamento}}</p>
+              <input type="text" value="" id={{tipo_pag.tipo_pagamento}} name={{tipo_pag.tipo_pagamento}}>
+              </div>
+            {% endfor %}
+
+            <div class="modal-header">
+            <p>Deixar em débito (Fiado)</p>
+            <input type="checkbox" id="scales" name="scales">
+          </div>
+
+          <div class="modal-header">
+            <p></p>
+            <input type="text" value="" disabled>
+          </div>
+
+          <div class="modal-header">
+            <p>Imprimir</p>
+            <input type="checkbox" id="scales" name="scales">
+          </div>
+
+
+
+          <button type="submit" class="btn btn-primary" onclick="pega_valor()">Salvar</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </form>
+      </div>
+
+
+
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Adicionar Categoria</button>
+      </div> -->
+
+
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+{% endblock main %}

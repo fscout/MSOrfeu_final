@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ super() }} - Deletar usuário
+{% endblock title %}
+
+{% block main %}
+<!-- 
+<p class="ocultar nivel">{{current_user.nivel_acesso}}</p>
+
+<div class="container hider" align="center"> -->
+
+  <!-- id
+nome
+telefone
+email
+login
+senha
+status
+id_nivel_acesso_id -->
+
+<div class="container" align="center">
+        <h1 align="center">Apagar usuário: {{usuario.nome}}</h1>
+
+        <form action="/delete_user/{{usuario.id}}">
+  
+            <div class="form-group col-md-4">
+                <label for="id">ID</label>
+                <input type="number" class="form-control" id="id" name="id" value="{{usuario.id}}" disabled>
+              </div>
+    
+              <div class="form-group col-md-4">
+                <label class="fill2" for="nome">NOME:</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="{{usuario.nome}}" disabled>
+              </div>
+
+              <div class="form-group col-md-4">
+                <label class="fill2" for="telefone">TELEFONE:</label>
+            <input type="text" class="form-control" id="telefone" name="telefone"  value="{{usuario.telefone}}" disabled>
+              </div>
+
+              <div class="form-group col-md-4">
+                <label class="fill2" for="email">EMAIL:</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{usuario.email}}" disabled>
+              </div>
+
+              <div class="form-group col-md-4">
+                <label class="fill2" for="login">LOGIN:</label>
+                <input type="text" class="form-control" id="login" name="login" value="{{usuario.login}}" disabled>
+              </div>
+
+              <!-- <div class="form-group col-md-4">
+                <label class="fill2" for="senha">SENHA:</label>
+                <input type="password" class="form-control" id="senha" name="senha" value="{{usuario.senha}}" disabled>
+              </div> -->
+
+
+              <input type="number" class="form-control" id="id_nivel_acesso_id" name="id_nivel_acesso_id" value="{{usuario.id_nivel_acesso_id}}" hidden>
+
+              <div class="form-group col-md-4">
+                <label for="id_nivel_acesso_id">NIVEL ACESSO:</label>
+              {% if usuario.id_nivel_acesso_id == 1 %}
+              <input type="text" class="form-control" id="id_nivel_acesso_id" name="id_nivel_acesso_id" value="ADMINISTRADOR" disabled>
+                {% else %}
+                <input type="text" class="form-control" id="id_nivel_acesso_id" name="id_nivel_acesso_id" value="OPERADOR DE CAIXA" disabled>
+              {% endif %}
+            </div>
+                
+<!-- 
+              <div class="form-group col-md-4">
+                <label for="id_nivel_acesso_id">ID_NIVEL_ACESSO_ID</label>
+                <input type="number" class="form-control" id="id_nivel_acesso_id" name="id_nivel_acesso_id" value="{{usuario.id_nivel_acesso_id}}" disabled>
+              </div> -->
+
+
+              <div class="form-group col-md-4">
+                <label for="id_nivel_acesso_id">STATUS:</label>
+              {% if usuario.status == 1 %}
+              <input type="text" class="form-control" id="status" name="status" value="DESBLOQUEADO" disabled>
+                {% else %}
+                <input type="text" class="form-control" id="status" name="status" value="BLOQUEADO" disabled>
+              {% endif %}
+            </div>
+
+
+
+              <!-- <div class="form-group col-md-4">
+                <label class="fill2" for="status">STATUS:</label>
+                <input type="text" class="form-control" id="status" name="status" value="{{usuario.status}}" disabled>
+              </div> -->
+
+              <a href="/usuarios_cadastrados"><button type="button" class="btn btn-primary">Cancelar</button></a>
+            <button type="submit" class="btn btn-danger" onclick="msg(3)">Apagar</button>
+
+
+            <!-- <script src="{{ url_for('static', filename='js/verifica_acesso.js')}}"></script> -->
+          </div>
+{% endblock main %} 

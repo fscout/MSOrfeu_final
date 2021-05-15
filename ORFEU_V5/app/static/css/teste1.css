@@ -1,0 +1,163 @@
+    /*STYLE DE PRODUTOS*/
+    .form {
+        display: flex;
+      }
+  
+      .form .section {
+        flex-grow: 1;
+        flex-direction: column;
+        padding: 10;
+      }
+  
+      .form .section .control-group {
+        width: 100%;
+      }
+  
+      .form .section .control-group{
+        display: block;
+        width: 100%;
+      }
+  
+      input, select{
+        border: 1px solid #B2B2B2;
+        box-sizing: border-box;
+        border-radius: 3px;
+        box-shadow: 0.5px 0.5px 0.5px rgb(178, 178, 178);
+        background-color: white;
+        width: 215px;
+        height: 25px;
+        display: inline-block;
+        margin-left: 10px;
+        font-size: 13px;
+      }
+  
+      .fonte, select, option{ 
+        font-size: 13px;
+      }
+  
+      input:focus, select:focus, textarea:focus{ 
+        outline: none !important;
+        border: 1px solid rgba(177, 229, 250, 1);
+        box-shadow: inset 0 0 4px rgba(177, 229, 250, 1);
+      }
+  
+      option:hover{
+        color: rgba(177, 229, 250, 1);
+      }
+  
+      label{
+        color: rgba(0, 0, 0, 0.82);
+        font-size: 4mm;
+        margin-top: 15px;
+        margin-bottom: 0px;
+        margin-left: 10px;
+        display: inline-block;
+      }
+  
+      #quantidade{
+        margin-left: 156px;
+      }
+  
+      #qtdMaxima{
+        margin-left: 92px;
+      }
+  
+      #precoVenda{
+        margin-left: 120px;
+      }
+  
+      #pesoBruto{
+        margin-left: 137px;
+      }
+  
+      #marca-label{
+        margin-left: 112px;
+      }
+  
+      #cad{
+        background: linear-gradient(180deg, rgb(143, 198, 242) 0%, rgba(131, 187, 209, 0.44) 119.05%);
+        border-radius: 5px;
+        border-color: rgb(143, 198, 242);
+        font-weight: bolder;
+      }
+  
+      #can{
+        background: rgb(194, 194, 194);
+        border-radius: 5px;
+        border-color: rgb(194, 194, 194);
+        font-weight: bolder;
+      }
+      .modal{
+        background-color: rgba(177, 229, 250, 0.74);
+      }
+  
+      #codigo_barras{ 
+        width: 260px;
+      }
+  
+      #codBarras{
+        display: block;
+      }
+  
+      .modal-dialog{
+        border-radius: 5px;
+      }
+  
+      h4{
+        color: rgba(0, 0, 0, 0.7);
+        font-weight: bold;
+        margin-left: auto;
+      }
+  
+      .botaoProd{
+        border-radius: 3px;
+        background: linear-gradient(180deg, rgb(143, 198, 242) 0%, rgba(131, 187, 209, 0.44) 119.05%);
+        border: transparent;
+        width: 12px;
+        height: 12px;
+      }
+  
+      #nvAcessoLabel{
+        margin-left: 185px;
+      }
+  
+      #email{
+        margin-left: 169px;
+      }
+  
+      #senha{
+        margin-left: 188px;
+      }
+  
+      textarea{
+        border: 1px solid #B2B2B2;
+        box-sizing: border-box;
+        border-radius: 3px;
+        box-shadow: 0.5px 0.5px 0.5px rgb(178, 178, 178);
+        background-color: white;
+        width: 445px;
+        height: 80px;
+        display: inline-block;
+        margin-left: 10px;
+        font-size: 13px;
+      }
+  
+      #telefoneLabel{
+        margin-left: 184px;
+      }
+  
+      #valor{
+        margin-left: 195px;
+      }
+  
+      #ultimaCompra{
+        margin-left: 150px;
+      }
+  
+      .buttonModal{
+        background: linear-gradient(180deg, rgb(143, 198, 242) 0%, rgba(131, 187, 209, 0.44) 119.05%);
+        border-radius: 5px;
+        border-color: rgb(143, 198, 242);
+        font-weight: bolder;
+        border: none;
+      }

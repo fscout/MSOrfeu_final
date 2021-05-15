@@ -1,0 +1,104 @@
+body, html{
+    width: 100%;
+    height: 100%;
+}
+
+.container-modal{
+    background-image: url(../img/mercado.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    width: 100%;
+    height: 100%;
+}
+
+.principal{
+    width: 1350px;
+    height: 900px;
+    background-color: rgb(177, 229, 250);
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    margin-top: -450px;
+    margin-left: -675px;
+    border-radius: 1%;
+}
+
+.btn-secondary.dropdown-toggle:focus{
+    box-shadow:0 0 0 .25rem rgb(177, 229, 250);
+}
+
+.btn-secondary:focus{
+    color:#fff;
+    background-color:rgb(177, 229, 250);
+    box-shadow:0 0 0 .25rem rgb(177, 229, 250);
+    border-color: rgb(177, 229, 250);
+}
+
+.btn:hover{
+    background-color:rgb(177, 229, 250);
+    border-color: rgb(177, 229, 250);
+}
+    
+.btn{
+    margin-top: 0.5%;
+    margin-left: 30px;
+    width: 260px;
+    height: 45px;
+    color: rgb(0, 183, 255);
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
+}
+
+.btn-caixa{
+    border-radius: 6px 0px 0px 6px;
+}
+
+.btn-vendas{
+    margin-left: -0.5%;
+    border-radius: 0px 0px 0px 0px;
+}
+
+.btn-produtos{
+    margin-left: -0.5%;
+    border-radius: 0px 0px 0px 0px;
+}
+
+.btn-usuarios{
+    margin-left: -0.5%;
+    border-radius: 0px 0px 0px 0px;
+}
+
+.btn-clientes{
+    margin-left: -0.5%;
+    border-radius: 0px 6px 6px 0px;
+}
+
+.dropdown-menu{
+    width: 260px;
+    border-color: rgb(177, 229, 250);
+}
+
+.div-conteudo{
+    margin-left: 2.2%;
+    margin-top: 1%;
+    width: 1293px;
+    height: 750px;
+    border-radius: 1%;
+    background-color: rgb(255, 255, 255);
+}
+
+.logobessa{
+    margin-left: 30px;
+    margin-top: 4px;
+    width: 60px;
+    height: 60px;
+}
+
+.login{
+    margin-left: 1140px;
+    margin-top: 4px;
+    width: 60px;
+    height: 60px;
+}

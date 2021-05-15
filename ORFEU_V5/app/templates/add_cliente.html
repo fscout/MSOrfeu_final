@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ super() }} - Adicionar Cliente
+{% endblock title %}
+
+{% block main %}
+
+<!-- <p class="ocultar nivel">{{current_user.nivel_acesso}}</p>
+
+<div class="container hider" align="center"> -->
+
+  <!-- nome
+  telefone
+  data_pagamento
+  cpf
+  observacao
+
+  NOME
+  TELEFONE
+  DATA PAGAMENTO
+  CPF
+  OBSERVACAO -->
+
+  <input id="date" type="date">
+
+<div class="container" align="center">
+    <h1 align="center" class="fill2">Cadastrar Cliente</h1>
+
+
+<form action="/add_cliente" method="POST">
+
+
+
+        <div class="form-group col-md-4">
+            <label class="fill2" for="nome">NOME:</label>
+            <input type="text" class="form-control" id="nome" name="nome" required maxlength="50" minlength="4">
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="fill2" for="telefone">TELEFONE:</label>
+            <input type="text" class="form-control" id="telefone" name="telefone" required maxlength="11" minlength="10">
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="fill2" for="data_pagamento">DATA PAGAMENTO:</label>
+            <input type="date" class="form-control" id="data_pagamento" name="data_pagamento" required>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="fill2" for="cpf">CPF:</label>
+            <input type="text" class="form-control" id="cpf" name="cpf" maxlength="11" minlength="11">
+          </div>
+
+          <div class="form-group col-md-4">
+            <label class="fill2" for="observacao">OBSERVACAO:</label>
+            <textarea name="observacao" id="observacao" cols="30" rows="10"></textarea>
+            <!-- <input type="password" class="form-control" id="observacao" name="observacao" required maxlength="30" minlength="8"> -->
+          </div>
+  
+
+
+
+          <a href="/clientes_cadastrados"><button type="button" class="btn btn-danger">Cancelar</button></a>
+          <button type="submit" class="btn btn-primary">Cadastrar</button>
+
+</form>
+
+
+
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
+<!-- <script src="{{ url_for('static', filename='js/verifica_acesso.js')}}"></script> -->
+</div>
+{% endblock main %} 

@@ -1,0 +1,42 @@
+pip install flask --- Nosso app literalmente
+
+pip install psycopg2 --- drive para o Postgres
+
+pip install flask-sqlalchemy --- Nos ajuda com a criação de tabelas e comunicação com o banco de dados sem a necessidade de aplicar comandos do SQl
+
+pip install flask-migrate --- Versiona o nosso banco de dados
+
+pip install flask-script --- Muda a forma de aplicarmos os comandos
+
+python run.py runserver --- Para rodarmos a aplicação
+
+python run.py db init --- Para iniciarmos a pasta que guardará as informações de nossas migrações
+
+python run.py db migrate --- Para iniciarmos a migração, o que faz o migrate? Ele pega tudo que está no banco de dados, tudo que está definido e compara com o que já existe. Uma vez verificado ele identifica o que precisa ser alterado.
+
+python run.py db upgrade --- Atualiza de fato todas as modificações realizadas nas tabelas do banco de dados
+
+pip install flask-wtf --- Para trabalharmos com formulários
+
+pip install flask-login --- Trabalhar com autenticação
+
+pip install -r requirements.txt --- Instala todas as bibliotecas do arquivo requirements.txt
+
+
+PASSO A PASSO NO BASH
+
+1º CRIAR O AMBIENTE VIRTUAL --- virtualenv venv
+2º ATIVAR O AMBIENTE VIRTUAL --- source venv/Scripts/activate
+3º INSTALAR AS BIBLIOTECAS --- pip install -r requirements.txt
+4º APLICAR OS COMANDOS ABAIXO:
+
+python run.py db init
+python run.py db migrate
+python run.py db upgrade
+python run.py runserver
+
+
+Usuário para acessar a aplicação 
+
+Usuário --> marcio
+senha --> 007

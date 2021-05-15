@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ super() }} - Adicionar Produto
+{% endblock title %}
+
+
+{% block main %}
+
+<!-- <p class="ocultar nivel">{{current_user.nivel_acesso}}</p>
+
+
+<div class="container hider" align="center"> -->
+
+
+<div class="container" align="center">
+
+  <h1 align="center" class="fill2">Cadastrar Categoria</h1>
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categorias">
+    Adicionar Categoria
+  </button>
+
+  <!-- Modal Categoria -->
+  <div class="modal fade" id="categorias" tabindex="-1" role="dialog" aria-labelledby="categoriasLabel"
+    aria-hidden="true">
+    
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="categoriasLabel">Nome da Categoria</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <form action="/add_categoria" method="POST">
+
+            <div class="form-group col-md-4">
+
+
+              <label class="fill2" for="nome_categoria">Categoria:</label>
+
+              <input type="text" class="form-control convertePMaiuscula" id="nome_categoria" name="nome_categoria" required onchange="converteParaMaiuscula()" maxlength="30">
+            </div>
+
+
+            <button type="submit" class="btn btn-primary" onclick="pega_valor()">Adicionar Categoria</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </form>
+
+
+
+
+        </div>
+
+
+
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Adicionar Categoria</button>
+        </div> -->
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+<p></p>
+
+
+  <div class="form-group col-md-4">
+    <label class="fill2" for="id_categoria">Categorias:</label>
+    <select class="form-select" aria-label="Default select example" id="id_categ_select_t" onchange="add_categoria()">
+      <option selected>Categorias Cadastradas</option>
+        {% for c in categorias %}
+        <option value="{{c.id}}">{{c.nome_categoria}}</option>
+        {% endfor %}
+    </select>
+  </div>
+
+
+
+
+
+
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      
+      {% if message %}
+        <p id="produto_ja_existe" class="hider">{{message}}</p>
+        <script>
+          produto_ja_existe = document.getElementById('produto_ja_existe')
+          alert(produto_ja_existe.innerText)
+        </script>
+      {% endif %}
+    {% endfor %} 
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
+
+  <!-- <script src="{{ url_for('static', filename='js/verifica_acesso.js')}}"></script> -->
+
+</div>
+
+
+
+
+
+
+
+{% endblock main %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+<div class="container" align="center">
+    <h1 align="center" class="fill2">Cadastrar Produto</h1>
+
+    <div class="form-group col-md-4">
+        <label class="fill2" for="preco_venda">Categorias:</label>
+          <select name="" id="">
+            {% for c in categorias %}
+            <option value="">{{c.categoria_produto}}</option>
+            {% endfor %}
+        </select>
+      </div>
+
+    <div>
+{% endblock main %}
+    

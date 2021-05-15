@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ super() }} - Editar Usuário
+{% endblock title %}
+
+{% block main %}
+
+<!-- <p class="ocultar nivel">{{current_user.nivel_acesso}}</p>
+
+<div class="container hider" align="center"> -->
+
+
+<div class="container" align="center">
+        <h1 align="center">Editar Usuário: {{usuario.nome}}</h1>
+
+        <form action="/edit_usuario/{{usuario.id}}" method="POST">
+    
+              <div class="form-group col-md-4">
+                <label for="nome">NOME</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="{{usuario.nome}}" required maxlength="50" minlength="4">
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="telefone">TELEFONE</label>
+                <input type="text" class="form-control" id="telefone" name="telefone" value="{{usuario.telefone}}" required maxlength="11" minlength="10">
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="email">EMAIL</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{usuario.email}}" id="email" name="email" required maxlength="50">
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="login">LOGIN</label>
+                <input type="text" class="form-control" id="login" name="login" value="{{usuario.login}}" required maxlength="25" minlength="4">
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="senha">SENHA</label>
+                <input type="password" class="form-control" id="senha" name="senha" maxlength="30" minlength="8">
+              </div>
+
+              <!-- <div class="form-group col-md-4">
+                <label for="status">STATUS</label>
+                <input type="text" class="form-control" id="status" name="status" value="{{usuario.status}}">
+              </div> -->
+
+              <div class="form-group col-md-4">
+                <label>ID_NIVEL_ACESSO_ID</label>
+                <input type="text" class="form-control" value="{{usuario.exibir_nivel_acesso()}}" disabled>
+              </div>
+
+              <input type="number" class="form-control" id="id_nivel_acesso_id" name="id_nivel_acesso_id" value="{{usuario.id_nivel_acesso_id}}" hidden>
+
+              <select class="form-select" aria-label="Default select example" id="id_nivel_select" onchange="add_nivel()">
+                <option selected>Escolha um nivel de acesso</option>
+                <option value=1>ADMINISTRADOR</option>
+                <option value=2>OPERADOR DE CAIXA</option>
+              </select>
+
+
+
+
+
+
+              <a href="/usuarios_cadastrados"><button type="button" class="btn btn-danger">Cancelar</button></a>
+            <button type="submit" class="btn btn-dark">Alterar Usuário</button>
+
+
+          </form>
+
+<!-- 
+            <script src="{{ url_for('static', filename='js/verifica_acesso.js')}}"></script> -->
+          </div>
+{% endblock main %} 
