@@ -30,12 +30,12 @@
             {% for u in usuarios %}
             <tr>
                 <td>{{u.nome}}</td>
+                <td>{{u.exibir_nivel_acesso()}}</td>
                 <td>{{u.telefone}}</td>
                 <td >{{u.email}}</td>
                 <td>{{u.login}}</td>
                 <!-- <td>{{u.senha}}</td> -->
                 <td>{{u.verificar_status()}}</td>
-                <td>{{u.exibir_nivel_acesso()}}</td>
                 <td>{{u.verificar_inativado()}}</td>
                 <td>
                     <a href="/edit_usuario/{{u.id}}"> <img src="{{url_for('static', filename='images/editar.png')}}"></a>
@@ -74,10 +74,91 @@
     {% endfor %}
     </ul>
   {% endif %}
-{% endwith %}
+  {% endwith %}
 
 
 
 </div>
+
+    <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar Usuário</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="EditUsers" action="" method="POST">
+            <div>
+                <div class="col-md-4">
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome">
+                </div>
+
+            <div class="form-group col-md-7">
+                <label for="id_nivel_acesso">Nível de Acesso:</label>
+                <select class="form-control" aria-label="Default select example" id="id_nivel_acesso_select">
+                    {% for u in usuarios %}
+                    <option value="{{u.id}}">{{u.exibir_nivel_acesso}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+                <div class="col-md-4">
+                <label for="telefone">Telefone</label>
+                <input type="text" class="form-control" id="telefone" name="telefone">
+                </div>
+
+                <div class="col-md-4">
+                <label for="email">E-mail</label>
+                <input type="email" class="form-control" id="email" name="email">
+                </div>
+
+                <div class="col-md-4">
+                <label for="login">Login</label>
+                <input type="text" class="form-control" id="login" name="login">
+                </div>
+                <input type="hidde" id="idUsuario"
+                name="id_nivel_acesso_id">
+                <input type="hidden" id="id_nivel_acesso_id" name="id_nivel_acesso_id">
+
+                <a href="/usuarios_cadastrados"><button type="button" class="btn btn-danger">Cancelar</button></a>
+                <button type="submit" class="btn btn-dark">Alterar Cliente</button>
+            </form>
+        </div>
+        </div>
+        <div class="modal-footer">
+
+        </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script>
+        function setaDadosModal(valor) {
+          document.getElementById('idUsuario').value = valor;
+        }
+        $(".edit").click(function () {
+          route = "/edit_usuario/" + document.getElementById('idUsuario').value;
+          $.get(route, function (retorno) {
+            var obj = JSON.parse(retorno);
+            document.getElementById('nome').value = obj.nome;
+            $('#id_nivel_acesso_select').val(obj.id_nivel_acesso_id);
+            document.getElementById('id_nivel_acesso_id').value = obj.id_nv_acesso_id
+            document.getElementById('telefone').value = obj.telefone;
+            document.getElementById('email').value = obj.email;
+            document.getElementById('login').value = obj.login;
+            $('#EditUsers').attr('action', route);
+          });
+          $('#id_nivel_acesso_select').on('change', function () {
+            document.getElementById('id_nivel_acesso_id').value = this.value
+          });
+        });
+      </script>
 
 {% endblock main %} 

@@ -87,6 +87,15 @@ class Usuario(db.Model, UserMixin):
         # True = Inativo - False = Ativo.
         self.inativado = False
 
+    def serialized(self):
+        return {
+            'nome': self.nome,
+            'id_nivel_acesso_id': self.id_nivel_acesso_id,
+            'telefone': self.telefone,
+            'email': self.email,
+            'login': self.login,
+        }
+
     '''O método abaixo serve para criptografar a senha do usuário, fazendo com que
     os dados dele estejam mais seguros'''
 
@@ -223,6 +232,17 @@ class Cliente(db.Model):
         self.cpf = cpf
         self.observacao = observacao
         self.inativado = False
+
+    def serialized(self):
+            return {
+                'nome': self.nome,
+                'telefone': self.telefone,
+                'cpf': self.cpf,
+                'valor_divida': self.valor_divida,
+                'data_pagamento': self.data_pagamento,
+                'data_ultima_compra': self.data_ultima_compra,
+                'observacao': self.observacao,
+            }
 
     # Tratar no front a exibição do status do usuário
     def verificar_status(self):
