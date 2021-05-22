@@ -25,6 +25,7 @@
         <th class="fill2">ATIVO/INATIVO</th>
       </tr>
     </thead>
+
     <tbody>
       <!-- u = usuario -->
       {% for u in usuarios %}
@@ -33,14 +34,9 @@
         <td>{{u.telefone}}</td>
         <td>{{u.email}}</td>
         <td>{{u.login}}</td>
-        <!-- <td>{{u.senha}}</td> -->
         <td>{{u.verificar_status()}}</td>
         <td>{{u.exibir_nivel_acesso()}}</td>
         <td>{{u.verificar_inativado()}}</td>
-        <!-- <td>
-          <a href="/edit_usuario/{{u.id}}"> <img src="{{url_for('static', filename='images/editar.png')}}"></a>
-
-        </td> -->
 
         <td>
           <a class="edit" data-toggle="modal" data-target="#modalExemplo" onclick="setaDadosModal('{{u.id}}')">
@@ -62,7 +58,7 @@
           <a href="/bloquear_usuario/{{u.id}}"><button>BLOQUEAR</button></a>
         </td>
         {% endif %}
-       
+
 
         {% if u.verificar_inativado() == 'INATIVO' %}
         <td>
@@ -74,7 +70,7 @@
         </td>
         {% endif %}
 
-        
+
         <td>
           <a href="/resetar_usuario/{{u.id}}"><button>Resetar Senha</button></a>
         </td>
@@ -96,9 +92,9 @@
   </ul>
   {% endif %}
   {% endwith %}
-
-
 </div>
+
+
 
 <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
@@ -111,6 +107,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+
+
+
       <div class="modal-body">
         <form id="EditUsers" action="" method="POST">
           <div>
@@ -173,6 +172,7 @@ login -->
   function setaDadosModal(valor) {
     document.getElementById('idUsuario').value = valor;
   }
+
   $(".edit").click(function () {
     route = "/edit_usuario/" + document.getElementById('idUsuario').value;
     $.get(route, function (retorno) {

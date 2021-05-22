@@ -2,7 +2,7 @@
 
 
 {% block title %}
-    {{ super() }} - Usuários Cadastrados
+{{ super() }} - Clientes Cadastrados
 {% endblock title %}
 
 
@@ -11,128 +11,148 @@
 
 
 <div class="container" align="center">
-    <h1 align="center" class="fill2" >Clientes Cadastrados</h1>
-    <table border="1" width="70%" class="table table-striped">
-        <thead>
-            <tr>
-                <th class="fill2">NOME</th>
-                <th class="fill2">TELEFONE</th>
-                <th class="fill2">DATA PAGAMENTO</th>
-                <th class="fill2">CPF</th>
-                <th class="fill2">OBSERVACAO</th>
-                <th class="fill2">STATUS</th>
-                <th class="fill2">DATA DA ÚLTIMA COMPRA</th>
-                <th class="fill2">VALOR DA DÍVIDA</th>
-                <th class="fill2">ATIVO/INATIVO</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- c = cliente -->
-            {% for c in clientes %}
-            <tr>
-                <td>{{c.nome}}</td>
-                <td>{{c.telefone}}</td>
-                <td>{{c.cpf}}</td>
-                <td class="valor">{{c.valor_divida}}</td>
-                <td >{{c.data_pagamento}}</td>
-                <td>{{c.data_ultima_compra}}</td>
-                <td>{{c.observacao}}</td>
-                <td>{{c.verificar_status()}}</td>
-                <td>{{c.verificar_inativado()}}</td>
-                <td>
-                <td>
-                  <a class="edit" data-toggle="modal" data-target="#modalExemplo" onclick="setaDadosModal('{{c.id}}')">
-                    <img src="{{url_for('static', filename='images/editar.png')}}">
-                  </a>
-                </td>
-                <td>
-                    
-                    {% if c.verificar_status() == '999' %}
-                        <a href="/desbloquear_cliente/{{c.id}}"><button>ATIVAR CÓDIGO 100</button></a>
-                        {% else %}
-                        <a href="/bloquear_cliente/{{c.id}}"><button>ATIVAR CÓDIGO 999</button></a>
-                    {% endif %}
-                    <p></p>
+  <h1 align="center" class="fill2">Clientes Cadastrados</h1>
+  <table border="1" width="70%" class="table table-striped">
+    <thead>
+      <tr>
+        <th class="fill2">NOME</th>
+        <th class="fill2">CPF</th>
+        <th class="fill2">TELEFONE</th>
+        <th class="fill2">DATA PAGAMENTO</th>
+        <th class="fill2">OBSERVACAO</th>
+        <th class="fill2">STATUS</th>
+        <th class="fill2">DATA DA ÚLTIMA COMPRA</th>
+        <th class="fill2">VALOR DA DÍVIDA</th>
+        <th class="fill2">ATIVO/INATIVO</th>
+      </tr>
+    </thead>
 
-                    {% if c.verificar_inativado() == 'INATIVO' %}
-                        <a href="/ativar_cliente/{{c.id}}"><button>ATIVAR CLIENTE</button></a>
-                        {% else %}
-                        <a href="/inativar_cliente/{{c.id}}"><button>INATIVAR CLIENTE</button></a>
-                    {% endif %}
-    
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <tbody>
+      <!-- c = cliente -->
+      {% for c in clientes %}
+      <tr>
+        <td>{{c.nome}}</td>
+        <td>{{c.cpf}}</td>
+        <td>{{c.telefone}}</td>
+        <td>{{c.data_pagamento}}</td>
+        <td>{{c.observacao}}</td>
+        <td>{{c.verificar_status()}}</td>
+        <td>{{c.data_ultima_compra}}</td>
+        <td class="valor">{{c.valor_divida}}</td>
+        <td>{{c.verificar_inativado()}}</td>
+        <td>
 
 
 
+        <td>
+          <a class="edit" data-toggle="modal" data-target="#modalExemplo" onclick="maldito()">
+            <img src="{{url_for('static', filename='images/editar.png')}}">
+          </a>
+        </td>
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul class=flashes>
-      {% for message in messages %}
-        <li>{{ message }}</li>
+        <td>
+
+          {% if c.verificar_status() == '999' %}
+        <td>
+          <a href="/desbloquear_cliente/{{c.id}}"><button>ATIVAR CÓDIGO 100</button></a>
+        </td>
+        {% else %}
+        <td>
+          <a href="/bloquear_cliente/{{c.id}}"><button>ATIVAR CÓDIGO 999</button></a>
+        </td>
+        {% endif %}
+
+        {% if c.verificar_inativado() == 'INATIVO' %}
+        <td>
+          <a href="/ativar_cliente/{{c.id}}"><button>ATIVAR CLIENTE</button></a>
+        </td>
+        {% else %}
+        <td>
+          <a href="/inativar_cliente/{{c.id}}"><button>INATIVAR CLIENTE</button></a>
+        </td>
+        {% endif %}
+
+        </td>
+      </tr>
       {% endfor %}
-    </ul>
-      {% endif %}
-      {% endwith %}
+    </tbody>
+  </table>
+
+
+
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
 
 </div>
 
-    <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
 
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Editar Cliente</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form id="EditClients" action="" method="POST">
-            <div>
-                <div class="col-md-4">
-                <label for="nome">Nome</label>
-                <input type="text" class="form-control" id="nome" name="nome">
-                </div>
 
-                <div class="col-md-4">
-                <label for="telefone">Telefone</label>
-                <input type="text" class="form-control" id="telefone" name="telefone">
-                </div>
+<div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
 
-                <div class="col-md-4">
-                <label for="cpf">CPF</label>
-                <input type="text" class="form-control" id="cpf" name="cpf">
-                </div>
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar Cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
-                <div class="col-md-4">
-                <label for="valor_divida">Valor</label>
-                <input type="number" class="form-control" id="valor_divida" name="valor_divida">
-                </div>
 
-                <div class="col-md-4">
-                <label for="data_pagamento">Pagamento</label>
-                <input type="date" class="form-control" id="data_pagamento" name="data_pagamento">
-                </div>
 
-                <div class="col-md-4">
-                <label for="data_ultima_compra">Última Compra</label>
-                <input type="date" class="form-control" id="data_ultima_compra" name="data_ultima_compra">
-                </div>
+      <div class="modal-body">
+        <form id="EditClients" action="" method="POST">
+          <div>
 
-                <div class="col-md-4">
-                <label for="observacao">Observação</label>
-                <textarea type="text" class="form-control valor" id="observacao" name="observacao">
+            <div class="col-md-4">
+              <label for="nome">Nome</label>
+              <input type="text" class="form-control" id="nome" name="nome">
+            </div>
+
+            <div class="col-md-4">
+              <label for="telefone">Telefone</label>
+              <input type="text" class="form-control" id="telefone" name="telefone">
+            </div>
+
+            <div class="col-md-4">
+              <label for="cpf">CPF</label>
+              <input type="text" class="form-control" id="cpf" name="cpf">
+            </div>
+
+            <div class="col-md-4">
+              <label for="valor_divida">Valor</label>
+              <input type="number" class="form-control" id="valor_divida" name="valor_divida">
+            </div>
+
+            <div class="col-md-4">
+              <label for="data_pagamento">Pagamento</label>
+              <input type="date" class="form-control" id="data_pagamento" name="data_pagamento">
+            </div>
+
+            <div class="col-md-4">
+              <label for="data_ultima_compra">Última Compra</label>
+              <input type="date" class="form-control" id="data_ultima_compra" name="data_ultima_compra">
+            </div>
+
+            <div class="col-md-4">
+              <label for="observacao">Observação</label>
+              <textarea type="text" class="form-control valor" id="observacao" name="observacao">
                 </div>
                 <input type="hidden" id="idCliente" name="idCliente">
 
                 <a href="/clientes_cadastrados"><button type="button" class="btn btn-danger">Cancelar</button></a>
+
                 <button type="submit" class="btn btn-dark">Alterar Cliente</button>
+
             </form>
         </div>
         </div>
@@ -144,24 +164,36 @@
       </div>
     </div>
 
-    <script>
-        function setaDadosModal(valor) {
-          document.getElementById('idCliente').value = valor;
-        }
-        $(".edit").click(function () {
-          route = "/edit_cliente/" + document.getElementById('idCliente').value;
-          $.get(route, function (retorno) {
-            var obj = JSON.parse(retorno);
-            document.getElementById('nome_cliente').value = obj.nome_cliente;
-            document.getElementById('telefone_cliente').value = obj.telefone_cliente;
-            document.getElementById('cpf').value = obj.cpf;
-            document.getElementById('valor').value = obj.valor;
-            document.getElementById('pagamento').value = obj.pagamento;
-            document.getElementById('ultima_compra').value = obj.ultimacompra;
-            document.getElementById('observacao').value = obj.observacao;
-            $('#EditClients').attr('action', route);
-          });
-        });
-      </script>
+    <!-- nome
+telefone
+data_pagamento
+valor_divida
+cpf
+observacao -->
+
+<script>
+function maldito(){
+  alert("OKOKOKOK")
+}
+
+
+  function setaDadosModal(valor) {
+    document.getElementById('idCliente').value = valor;
+  }
+
+  $(".edit").click(function () {
+    route = "/edit_cliente/" + document.getElementById('idCliente').value;
+    $.get(route, function (retorno) {
+      var obj = JSON.parse(retorno);
+      document.getElementById('nome').value = obj.nome;
+      document.getElementById('telefone').value = obj.telefone;
+      document.getElementById('data_pagamento').value = obj.data_pagamento;
+      document.getElementById('valor_divida').value = obj.valor_divida;
+      document.getElementById('cpf').value = obj.cpf;
+      document.getElementById('observacao').value = obj.observacao;
+      $('#EditClients').attr('action', route);
+    });
+  });
+</script>
 
 {% endblock main %} 
