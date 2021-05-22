@@ -354,6 +354,11 @@ class Marca(db.Model):
     def __init__(self, nome_marca):
         self.nome_marca = nome_marca
 
+    def serialized(self):
+        return {
+            'nome_marca': self.nome_marca,
+        }
+
     def __repr__(self):
         return "<Marca %r>" % self.id
 
@@ -365,6 +370,11 @@ class Medida(db.Model):
 
     def __init__(self, nome_medida):
         self.nome_medida = nome_medida
+
+    def serialized(self):
+        return {
+            'nome_medida': self.nome_medida,
+        }    
 
     def __repr__(self):
         return "<Medida %r>" % self.id

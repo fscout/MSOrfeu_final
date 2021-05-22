@@ -66,12 +66,10 @@ aria-hidden="true">
 
           <div class="form-group col-md-7">
             <label for="id_marca">Marcas:</label>
-            <select class="form-control" aria-label="Default select example" id="id_marca_select">
-              {% for m in marcas %}
-              <option value="{{m.id}}">{{m.nome_marca}}</option>
-              {% endfor %}
-            </select>
+            <input type="text" id="nome_marca" name="nome_marca">
           </div>
+
+          <input type="hidden" id="idMarca" name="idMarca">
 
             <a href="/marcas_cadastradas"><button type="button" class="btn btn-danger">Cancelar</button></a>
             <button type="submit" class="btn btn-dark">Alterar Marca</button>

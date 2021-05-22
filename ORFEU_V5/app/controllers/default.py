@@ -528,6 +528,17 @@ def categorias_cadastradas():
     categorias = Categoria.query.all()
     return render_template("categorias_cadastradas.html", categorias=categorias)
 
+@app.route("/marcas_cadastradas")
+@login_required
+def marcas_cadastradas():
+    marcas = Marca.query.all()
+    return render_template("marcas_cadastradas.html", marcas=marcas)
+
+@app.route("/medidas_cadastradas")
+@login_required
+def medidas_cadastradas():
+    medidas = Medida.query.all()
+    return render_template("medidas_cadastradas.html", medidas=medidas)
 
 @app.route("/deletar_produto/<int:id>")
 @login_required
@@ -652,17 +663,20 @@ def add_marca():
 def edit_marca(id):
     marca = Marca.query.get(id)
     if request.method == 'POST':
-        marcas = Usuario.query.all()
+        marcas = Marca.query.all()
         for m in marcas:
             if m.id != marca.id:
                 if m.nome_marca == request.form['nome_marca']:
                     # print('Essa Categoria já foi cadastrada')
                     return redirect(url_for('listar_marca'))
         marca.nome_marca = request.form['nome_marca']
-        # print('Categoria cadastrada com sucesso')
+        # print('Marca cadastrada com sucesso')
         db.session.commit()
-        return listar_marcas()
-    return listar_marcas()
+        return marcas_cadastradas()
+    if marca:
+        return json.dumps(marca.serialized())
+        print('Não existe essa marca método GET!!!')
+    return redirect(url_for('produtos_cadastrados'))
 
 
 @app.route("/delete_marca/<int:id>")
@@ -701,7 +715,7 @@ def add_medida():
 def edit_medida(id):
     medida = Medida.query.get(id)
     if request.method == 'POST':
-        medidas = Usuario.query.all()
+        medidas = Medida.query.all()
         for m in medidas:
             if m.id != medida.id:
                 if m.nome_medida == request.form['nome_medida']:
@@ -710,8 +724,11 @@ def edit_medida(id):
         medida.nome_medida = request.form['nome_medida']
         # print('Categoria cadastrada com sucesso')
         db.session.commit()
-        return listar_medidas()
-    return listar_medidas()
+        return medidas_cadastradas()
+    if medida:
+        return json.dumps(medida.serialized())
+        print('Não existe essa medida método GET!!!')
+    return redirect(url_for('produtos_cadastrados'))
 
 
 @app.route("/delete_medida/<int:id>")

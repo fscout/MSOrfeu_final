@@ -66,12 +66,10 @@ aria-hidden="true">
 
           <div class="form-group col-md-7">
             <label for="id_medida">Medidas:</label>
-            <select class="form-control" aria-label="Default select example" id="id_medida_select">
-              {% for m in medidas %}
-              <option value="{{m.id}}">{{m.nome_medida}}</option>
-              {% endfor %}
-            </select>
+            <input type="text" id="nome_medida" name="nome_medida">
           </div>
+
+          <input type="hidden" id="idMedida" name="idMedida">
 
             <a href="/medidas_cadastradas"><button type="button" class="btn btn-danger">Cancelar</button></a>
             <button type="submit" class="btn btn-dark">Alterar Medida</button>
