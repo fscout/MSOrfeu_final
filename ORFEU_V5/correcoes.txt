@@ -1,6 +1,16 @@
 o input do código de barras no modal não está funcionando (Na hora de editar o produto)
 
-Precisamos colocar a função de alterar para maiúscula os nomes das categorias
+Colocar a função de alterar para maiúscula os nomes das categorias
 
+Exibir mensagens sempre que adicionar, editar ou deletar um objeto.
 
-Precisamos colocar a mensagem de categoria alterada com sucesso
+Padronizar tenxtos no sistema
+
+Como faremos a atualização do valor da dívida do cliente?
+1 - Atualizaremos automaticamente, ou seja, ele efetua um pagamento e o sistema atualiza o valor?
+2 - Essa atualização será manual?
+
+Colocar menssagem flash nas rotas
+
+Criar uma tela ou modal caso o usuário queira alterar sua senha.
+

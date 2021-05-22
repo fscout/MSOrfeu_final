@@ -89,9 +89,10 @@ def logout():
 @login_required
 def usuarios_cadastrados():
     usuarios = Usuario.query.all()
+    niveis = NivelAcesso.query.all()
     # for u in usuarios:
     #     print(u.nome)
-    return render_template("usuarios_cadastrados.html", usuarios=usuarios)
+    return render_template("usuarios_cadastrados.html", usuarios=usuarios, niveis=niveis)
 
 
 @app.route("/add_usuario", methods=['GET', 'POST'])
@@ -123,7 +124,7 @@ def add_usuario_full():
     niveis = NivelAcesso.query.all()
     return render_template('add_usuario.html', niveis=niveis)
 
-
+'''
 @app.route("/edit_usuario/<int:id>", methods=['GET', 'POST'])
 @login_required
 def edit_usuario(id):
@@ -155,6 +156,43 @@ def edit_usuario(id):
         db.session.commit()
         return usuarios_cadastrados()
     return render_template('edit_usuario.html', usuario=usuario)
+'''
+
+@app.route("/edit_usuario/<int:id>", methods=['GET', 'POST'])
+@login_required
+def edit_usuario(id):
+    print(request.form['id_nivel_acesso_id'], " Nivel de acesso")
+    usuario = Usuario.query.get(id)
+    if request.method == 'POST':
+        usuarios = Usuario.query.all()
+        for u in usuarios:
+            if u.id != usuario.id:
+                #  Se o email já existir mandar de volta para o index
+                if u.email == request.form['email']:
+                    # print('Esse e-mail já foi cadastrado')
+                    return redirect(url_for('index'))
+                #  Se o login já existir mandar de volta para o index
+                if u.login == request.form['login']:
+                    # print('Esse login já foi cadastrado')
+                    return redirect(url_for('index'))
+        usuario.nome = request.form['nome']
+        usuario.telefone = request.form['telefone']
+        usuario.email = request.form['email']
+        usuario.login = request.form['login']
+        # if request.form['senha'] == "":
+        #     usuario.senha = usuario.senha
+        # else:
+        #     usuario.senha = usuario.criptografar_senha(request.form['senha'])
+        usuario.id_nivel_acesso_id = request.form['id_nivel_acesso_id']
+        db.session.commit()
+        return usuarios_cadastrados()
+    if usuario:
+        niveis = NivelAcesso.query.all()
+        nivel = NivelAcesso.query.get(usuario.id_nivel_acesso_id)
+        usuario.nome_nivel_acesso = nivel.nivel_acesso
+        return json.dumps(usuario.serialized())
+        print('Não existe esse usuario método GET!!!')
+    return redirect(url_for('usuarios_cadastrados'))
 
 
 @app.route("/deletar_usuario/<int:id>")

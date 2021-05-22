@@ -21,7 +21,7 @@
       <tbody>
         {% for m in medidas %}
         <tr>
-          <td>{{m.medidas}}</td>
+          <td>{{m.nome_medida}}</td>
           <td>
             <a class="edit" data-toggle="modal" data-target="#modalExemplo" onclick="setaDadosModal('{{m.id}}')">
               <img src="{{url_for('static', filename='images/editar.png')}}">
