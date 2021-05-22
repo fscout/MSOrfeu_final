@@ -40,11 +40,8 @@
                 <td>{{c.verificar_status()}}</td>
                 <td>{{c.verificar_inativado()}}</td>
                 <td>
-                <td>
-                  <a class="edit" data-toggle="modal" data-target="#modalExemplo" onclick="setaDadosModal('{{c.id}}')">
-                    <img src="{{url_for('static', filename='images/editar.png')}}">
-                  </a>
-                </td>
+                    <a href="/edit_cliente/{{c.id}}"> <img src="{{url_for('static', filename='images/editar.png')}}"></a>
+                    <a href="/deletar_cliente/{{c.id}}"> <img src="{{url_for('static', filename='images/remover.png')}}"></a>
                     
                     {% if c.verificar_status() == '999' %}
                         <a href="/desbloquear_cliente/{{c.id}}"><button>ATIVAR CÓDIGO 100</button></a>
@@ -143,7 +140,6 @@
       </div>
     </div>
 
-    
     <script>
         function setaDadosModal(valor) {
           document.getElementById('idCliente').value = valor;
