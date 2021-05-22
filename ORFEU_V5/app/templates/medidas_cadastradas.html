@@ -92,12 +92,8 @@ aria-hidden="true">
     route = "/edit_medida/" + document.getElementById('idMedida').value;
     $.get(route, function (retorno) {
       var obj = JSON.parse(retorno);
-      $('#id_medida_select').val(obj.id_medida_id);
-      document.getElementById('id_medida_id').value = obj.id_medida_id
+      document.getElementById('nome_medida').value = obj.nome_medida
       $('#EditMeasures').attr('action', route);
-    });
-    $('#id_medida_select').on('change', function () {
-      document.getElementById('id_medida_id').value = this.value
     });
   });
 </script>

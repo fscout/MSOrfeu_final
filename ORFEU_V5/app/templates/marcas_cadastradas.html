@@ -92,12 +92,8 @@ aria-hidden="true">
     route = "/edit_marca/" + document.getElementById('idMarca').value;
     $.get(route, function (retorno) {
       var obj = JSON.parse(retorno);
-      $('#id_marca_select').val(obj.id_marca_id);
-      document.getElementById('id_marca_id').value = obj.id_marca_id
+      document.getElementById('nome_marca').value = obj.nome_marca
       $('#EditBrands').attr('action', route);
-    });
-    $('#id_marca_select').on('change', function () {
-      document.getElementById('id_marca_id').value = this.value
     });
   });
 </script>
