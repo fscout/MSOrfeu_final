@@ -2,33 +2,33 @@
 
 
 {% block title %}
-    {{ super() }} - Categorias Cadastradas
+    {{ super() }} - Medidas Cadastradas
 {% endblock title %}
 
 
 {% block main %}
 
 
-
+ 
 <div class="container" align="center">
-    <h1 align="center" class="fill2">Categorias Cadastradas</h1>
+    <h1 align="center" class="fill2">Medidas Cadastradas</h1>
     <table border="1" width="70%" class="table table-striped">
       <thead>
         <tr>
-          <th class="fill2">Categorias</th>
+          <th class="fill2">Medidas</th>
         </tr>
       </thead>
       <tbody>
-        {% for c in categorias %}
-        <tr> 
-          <td>{{c.nome_categoria}}</td>
+        {% for m in medidas %}
+        <tr>
+          <td>{{m.medidas}}</td>
           <td>
-            <a class="edit" data-toggle="modal" data-target="#modalExemplo" onclick="setaDadosModal('{{c.id}}')">
+            <a class="edit" data-toggle="modal" data-target="#modalExemplo" onclick="setaDadosModal('{{m.id}}')">
               <img src="{{url_for('static', filename='images/editar.png')}}">
             </a>
           </td>
           <td>
-            <a class="delet" href="/deletar_categoria/{{c.id}}">
+            <a class="delet" href="/deletar_medida/{{m.id}}">
               <img src="{{url_for('static', filename='images/remover.png')}}">
             </a>
           </td>
@@ -56,23 +56,25 @@ aria-hidden="true">
     <div class="modal-content">
 
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Editar Categoria</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Editar Medida</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
         <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <form id="EditCategories" action="" method="POST">
+        <form id="EditMeasures" action="" method="POST">
 
           <div class="form-group col-md-7">
-            <label for="nome_categoria">Categorias:</label>
-            <input type="text" id="nome_categoria" name="nome_categoria">
+            <label for="id_medida">Medidas:</label>
+            <select class="form-control" aria-label="Default select example" id="id_medida_select">
+              {% for m in medidas %}
+              <option value="{{m.id}}">{{m.nome_medida}}</option>
+              {% endfor %}
+            </select>
           </div>
 
-          <input type="hidden" id="idCategoria" name="idCategoria">
-
-            <a href="/categorias_cadastradas"><button type="button" class="btn btn-danger">Cancelar</button></a>
-            <button type="submit" class="btn btn-dark">Alterar Categoria</button>
+            <a href="/medidas_cadastradas"><button type="button" class="btn btn-danger">Cancelar</button></a>
+            <button type="submit" class="btn btn-dark">Alterar Medida</button>
         </form>
     </div>
     </div>
@@ -86,25 +88,21 @@ aria-hidden="true">
 
 <script>
   function setaDadosModal(valor) {
-    document.getElementById('idCategoria').value = valor;
+    document.getElementById('idMedida').value = valor;
   }
   $(".edit").click(function () {
-    route = "/edit_categoria/" + document.getElementById('idCategoria').value;
+    route = "/edit_medida/" + document.getElementById('idMedida').value;
     $.get(route, function (retorno) {
       var obj = JSON.parse(retorno);
-      document.getElementById('nome_categoria').value = obj.nome_categoria
-      $('#EditCategories').attr('action', route);
+      $('#id_medida_select').val(obj.id_medida_id);
+      document.getElementById('id_medida_id').value = obj.id_medida_id
+      $('#EditMeasures').attr('action', route);
+    });
+    $('#id_medida_select').on('change', function () {
+      document.getElementById('id_medida_id').value = this.value
     });
   });
 </script>
-    <!-- <div class="form-group col-md-4">
-        <label class="fill2" for="categoria">Categorias:</label>
-          <select name="" id="">
-            {% for c in categorias %}
-            <option value="">{{c.categoria_produto}}</option>
-            {% endfor %}
-        </select>
-      </div> -->
 
 {% endblock main %}
     

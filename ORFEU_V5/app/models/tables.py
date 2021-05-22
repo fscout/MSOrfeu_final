@@ -313,16 +313,17 @@ class Cliente(db.Model):
 
         # return self.verificar_status()
 
+# 'data_ultima_compra': self.data_ultima_compra, é atualização automática
     def serialized(self):
         return {
             'nome': self.nome,
             'telefone': self.telefone,
-            'cpf': self.cpf,
-            'valor_divida': self.valor_divida,
             'data_pagamento': self.data_pagamento,
-            'data_ultima_compra': self.data_ultima_compra,
+            'valor_divida': self.valor_divida,
+            'cpf': self.cpf,
             'observacao': self.observacao,
         }
+
 
     def __repr__(self):
         return "<Cliente %r>" % self.id
@@ -335,6 +336,11 @@ class Categoria(db.Model):
 
     def __init__(self, nome_categoria):
         self.nome_categoria = nome_categoria
+
+    def serialized(self):
+        return {
+            'nome_categoria': self.nome_categoria,
+        }
 
     def __repr__(self):
         return "<Categoria %r>" % self.id

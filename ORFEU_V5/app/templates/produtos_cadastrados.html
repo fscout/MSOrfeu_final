@@ -51,16 +51,19 @@
         <td>{{p.nome_categoria}}</td>
         <td>{{p.nome_marca}}</td>
         <td>{{p.nome_medida}}</td>
+
         <td>
           <a class="edit" data-toggle="modal" data-target="#modalExemplo" onclick="setaDadosModal('{{p.id}}')">
             <img src="{{url_for('static', filename='images/editar.png')}}">
           </a>
         </td>
+
         <td>
           <a class="delet" href="/deletar_produto/{{p.id}}">
             <img src="{{url_for('static', filename='images/remover.png')}}">
           </a>
         </td>
+
       </tr>
       {% endfor %}
     </tbody>
@@ -83,6 +86,8 @@
   </ul>
   {% endif %}
   {% endwith %}
+
+
 
 </div>
 <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -170,6 +175,8 @@
                 {% endfor %}
               </select>
             </div>
+
+            
             <input type="hidden" id="idProduto" name="idProduto">
             <input type="hidden" id="id_categoria_id" name="id_categoria_id">
             <input type="hidden" id="id_marca_id" name="id_marca_id">
@@ -179,6 +186,9 @@
             <button type="submit" class="btn btn-dark">Alterar Produto</button>
         </form>
       </div>
+
+
+
     </div>
     <div class="modal-footer">
 
@@ -187,6 +197,7 @@
   </div>
 </div>
 </div>
+
 
 <script>
   function setaDadosModal(valor) {
@@ -211,6 +222,7 @@
       document.getElementById('id_categoria_id').value = obj.id_categoria_id
       document.getElementById('id_marca_id').value = obj.id_marca_id
       document.getElementById('id_medida_id').value = obj.id_medida_id
+
       $('#EditProduts').attr('action', route);
     });
     $('#id_categ_select').on('change', function () {

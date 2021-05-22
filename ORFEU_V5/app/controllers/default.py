@@ -484,10 +484,8 @@ def edit_produto(id):
             produto.id_categoria_id = request.form['id_categoria_id']
             produto.id_marca_id = request.form['id_marca_id']
             produto.id_medida_id = request.form['id_medida_id']
-
             db.session.commit()
-
-            print("Produto alterado")
+            flash(f"O Produto {produto.descricao_produto} foi alterado com sucesso!")
             return redirect(url_for('produtos_cadastrados'))
 
         print('Não existe esse produto método POST!!!')
@@ -502,7 +500,7 @@ def edit_produto(id):
         medida = Medida.query.get(produto.id_medida_id)
         produto.nome_categoria = categoria.nome_categoria
         produto.nome_marca = marca.nome_marca
-        produto.nome_medida = medida.nome_medida        
+        produto.nome_medida = medida.nome_medida
         return json.dumps(produto.serialized())
         print('Não existe esse produto método GET!!!')
     return redirect(url_for('produtos_cadastrados'))
@@ -523,6 +521,12 @@ def produtos_cadastrados():
         p.nome_marca = marca.nome_marca
         p.nome_medida = medida.nome_medida
     return render_template("produtos_cadastrados.html", produtos=produtos, categorias=categorias, marcas=marcas, medidas=medidas)
+
+@app.route("/categorias_cadastradas")
+@login_required
+def categorias_cadastradas():
+    categorias = Categoria.query.all()
+    return render_template("categorias_cadastradas.html", categorias=categorias)
 
 
 @app.route("/deletar_produto/<int:id>")
@@ -574,23 +578,43 @@ def add_categoria():
         return redirect(url_for('listar_categorias'))
 
 
+# @app.route("/edit_categoria/<int:id>", methods=['GET', 'POST'])
+# @login_required
+# def edit_categoria(id):
+#     categoria = Categoria.query.get(id)
+#     if request.method == 'POST':
+#         categorias = Usuario.query.all()
+#         for c in categorias:
+#             if c.id != categoria.id:
+#                 if c.nome_categoria == request.form['nome_categoria']:
+#                     # print('Essa Categoria já foi cadastrada')
+#                     return redirect(url_for('listar_categorias'))
+#         categoria.nome_categoria = request.form['nome_categoria']
+#         # print('Categoria cadastrada com sucesso')
+#         db.session.commit()
+#         return listar_categorias()
+#     return listar_categorias()
+
 @app.route("/edit_categoria/<int:id>", methods=['GET', 'POST'])
 @login_required
 def edit_categoria(id):
+    print("Cheguei aqui no editar categoria")
     categoria = Categoria.query.get(id)
     if request.method == 'POST':
-        categorias = Usuario.query.all()
+        categorias = Categoria.query.all()
         for c in categorias:
             if c.id != categoria.id:
                 if c.nome_categoria == request.form['nome_categoria']:
                     # print('Essa Categoria já foi cadastrada')
                     return redirect(url_for('listar_categorias'))
         categoria.nome_categoria = request.form['nome_categoria']
-        # print('Categoria cadastrada com sucesso')
+        print('Categoria alterada com sucesso')
         db.session.commit()
-        return listar_categorias()
-    return listar_categorias()
-
+        return categorias_cadastradas()
+    if categoria:
+        return json.dumps(categoria.serialized())
+        print('Não existe essa categoria método GET!!!')
+    return redirect(url_for('produtos_cadastrados'))
 
 @app.route("/delete_categoria/<int:id>")
 @login_required

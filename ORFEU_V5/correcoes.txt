@@ -1,0 +1,6 @@
+o input do código de barras no modal não está funcionando (Na hora de editar o produto)
+
+Precisamos colocar a função de alterar para maiúscula os nomes das categorias
+
+
+Precisamos colocar a mensagem de categoria alterada com sucesso
