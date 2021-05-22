@@ -391,7 +391,10 @@ def edit_cliente(id):
         db.session.commit()
         flash(f"O Cliente {cliente.nome} foi alterado com sucesso!")
         return clientes_cadastrados()
-    return render_template('edit_cliente.html', cliente=cliente)
+    if cliente:
+        return json.dumps(cliente.serialized())
+        print('Não existe esse cliente método GET!!!')
+    return redirect(url_for('clientes_cadastrados'))
 
 
 @app.route("/deletar_cliente/<int:id>")
