@@ -16,6 +16,7 @@ import os
 
 # app.id_usuario = 1
 
+
 @login_manager.user_loader
 def get_user(user_id):
     app.id_usuario = user_id
@@ -38,8 +39,8 @@ login_manager.login_message = u"Você precisa logar para acessar o conteúdo da 
 
 login_manager.session_protection = "strong"
 
-# Preciso colocar outro conteúdo na página index.
 
+# Preciso colocar outro conteúdo na página index.
 
 @app.route("/")
 @app.route("/index")
@@ -62,7 +63,8 @@ def login():
             if usuario.status:
                 if not usuario.inativado:
                     if usuario.recuperou_senha:
-                        return render_template('alterar_senha_usuario.html', usuario=usuario)
+                        return render_template('alterar_senha_usuario.html',
+                                               usuario=usuario)
                     if form.lembrar_me.data:
                         login_user(usuario, remember=True,
                                    duration=timedelta(days=2))
@@ -90,9 +92,8 @@ def logout():
 def usuarios_cadastrados():
     usuarios = Usuario.query.all()
     niveis = NivelAcesso.query.all()
-    # for u in usuarios:
-    #     print(u.nome)
-    return render_template("usuarios_cadastrados.html", usuarios=usuarios, niveis=niveis)
+    return render_template("usuarios_cadastrados.html", usuarios=usuarios,
+                           niveis=niveis)
 
 
 @app.route("/add_usuario", methods=['GET', 'POST'])
@@ -101,7 +102,6 @@ def add_usuario():
     if request.method == 'POST':
         usuarios = Usuario.query.all()
         for u in usuarios:
-            #  Se o email ou login já existir mandar de volta para o index
             if u.email == request.form['email']:
                 flash("Esse e-mail já existe!")
                 return redirect(url_for('add_usuario_full'))
@@ -111,7 +111,8 @@ def add_usuario():
         usuario = Usuario(request.form['nome'], request.form['telefone'],
                           request.form['email'],
                           request.form['login'],
-                          request.form['senha'], request.form['id_nivel_acesso_id'])
+                          request.form['senha'],
+                          request.form['id_nivel_acesso_id'])
         db.session.add(usuario)
         db.session.commit()
         return redirect(url_for('usuarios_cadastrados'))
@@ -124,39 +125,6 @@ def add_usuario_full():
     niveis = NivelAcesso.query.all()
     return render_template('add_usuario.html', niveis=niveis)
 
-'''
-@app.route("/edit_usuario/<int:id>", methods=['GET', 'POST'])
-@login_required
-def edit_usuario(id):
-    usuario = Usuario.query.get(id)
-    if request.method == 'POST':
-        usuarios = Usuario.query.all()
-        for u in usuarios:
-            if u.id != usuario.id:
-                #  Se o email já existir mandar de volta para o index
-                if u.email == request.form['email']:
-                    # print('Esse e-mail já foi cadastrado')
-                    return redirect(url_for('index'))
-                #  Se o login já existir mandar de volta para o index
-                if u.login == request.form['login']:
-                    # print('Esse login já foi cadastrado')
-                    return redirect(url_for('index'))
-        usuario.nome = request.form['nome']
-        usuario.telefone = request.form['telefone']
-        usuario.email = request.form['email']
-        usuario.login = request.form['login']
-        if request.form['senha'] == "":
-            # print('entrei aqui no IF request.form[senha] ', request.form['senha'])
-            usuario.senha = usuario.senha
-            # print('usuario.senha', usuario.senha)
-        else:
-            # print('entrei aqui no Else', request.form['senha'])
-            usuario.senha = usuario.criptografar_senha(request.form['senha'])
-        usuario.id_nivel_acesso_id = request.form['id_nivel_acesso_id']
-        db.session.commit()
-        return usuarios_cadastrados()
-    return render_template('edit_usuario.html', usuario=usuario)
-'''
 
 @app.route("/edit_usuario/<int:id>", methods=['GET', 'POST'])
 @login_required
@@ -169,11 +137,11 @@ def edit_usuario(id):
                 #  Se o email já existir mandar de volta para o index
                 if u.email == request.form['email']:
                     # print('Esse e-mail já foi cadastrado')
-                    return redirect(url_for('index'))
+                    return redirect(url_for('produtos_cadastrados'))
                 #  Se o login já existir mandar de volta para o index
                 if u.login == request.form['login']:
                     # print('Esse login já foi cadastrado')
-                    return redirect(url_for('index'))
+                    return redirect(url_for('produtos_cadastrados'))
         usuario.nome = request.form['nome']
         usuario.telefone = request.form['telefone']
         usuario.email = request.form['email']
@@ -442,7 +410,6 @@ def desbloquear_cliente(id):
     return clientes_cadastrados()
 
 
-
 @app.route("/inativar_cliente/<int:id>")
 @login_required
 def inativar_cliente(id):
@@ -471,16 +438,23 @@ def ativar_cliente(id):
 #                  peso_bruto=None, id_categoria_id=1, id_marca_id=1,
 #                  id_medida_id=1
 
+
 @app.route("/add_produto", methods=['GET', 'POST'])
 @login_required
 def add_produto():
     if request.method == 'POST':
         produtos = Produto.query.all()
         for p in produtos:
-            if p.codigo_barras == request.form['codigo_barras'] or p.descricao_produto == request.form['descricao_produto'] and p.id_marca_id == int(request.form['id_marca']):
-                flash("Esse código ou produto já existe!!!")
-                # print('Esse código ou produto já existe!!!')
+            if p.codigo_barras == request.form['codigo_barras']:
+                flash('Esse código de produto já existe!!!')
                 return redirect(url_for('add_produto_full'))
+
+            if p.descricao_produto == request.form['descricao_produto'] and p.id_marca_id == int(request.form['id_marca']):
+                marca = Marca.query.get(p.id_marca_id)
+                flash(
+                    f'Jé existe um produto chamado {p.descricao_produto} associado a marca {marca.nome_marca}!!!')
+                return redirect(url_for('add_produto_full'))
+
         produto = Produto(request.form['codigo_barras'], request.form['descricao_produto'], request.form['quantidade_produto'], request.form['quantidade_minima'], str(request.form['preco_custo']).replace(",", "."), str(request.form['preco_venda']).replace(
             ",", "."), request.form['quantidade_maxima'], float(request.form['peso_liquido'].replace(",", ".")), float(request.form['peso_bruto'].replace(",", ".")), request.form['id_categoria'], request.form['id_marca'], request.form['id_medida'])
         db.session.add(produto)
@@ -499,8 +473,13 @@ def edit_produto(id):
             produtos = Produto.query.all()
             for p in produtos:
                 if p.id != produto.id:
-                    if p.codigo_barras == request.form['codigo_barras'] or p.descricao_produto == request.form['descricao_produto'] and p.id_marca_id == int(request.form['id_marca_id']):
-                        print('Esse código ou produto já existe!!!')
+                    if p.codigo_barras == request.form['codigo_barras']:
+                        flash('Esse código de produto já existe!!!')
+                        return redirect(url_for('produtos_cadastrados'))
+                    if p.descricao_produto == request.form['descricao_produto'] and p.id_marca_id == int(request.form['id_marca_id']):
+                        marca = Marca.query.get(p.id_marca_id)
+                        flash(
+                            f'Jé existe um produto chamado {p.descricao_produto} associado a marca {marca.nome_marca}!!!')
                         return redirect(url_for('produtos_cadastrados'))
 
             produto.codigo_barras = request.form['codigo_barras']
@@ -525,7 +504,8 @@ def edit_produto(id):
             produto.id_marca_id = request.form['id_marca_id']
             produto.id_medida_id = request.form['id_medida_id']
             db.session.commit()
-            flash(f"O Produto {produto.descricao_produto} foi alterado com sucesso!")
+            flash(
+                f"O Produto {produto.descricao_produto} foi alterado com sucesso!")
             return redirect(url_for('produtos_cadastrados'))
 
         print('Não existe esse produto método POST!!!')
@@ -534,7 +514,8 @@ def edit_produto(id):
         categorias = Categoria.query.all()
         marcas = Marca.query.all()
         medidas = Medida.query.all()
-        # Verificar para criar uma função para as linhas abaixo pois estão se repetindo em outras partes do código
+        # Verificar para criar uma função para as linhas abaixo pois estão
+        # se repetindo em outras partes do código
         categoria = Categoria.query.get(produto.id_categoria_id)
         marca = Marca.query.get(produto.id_marca_id)
         medida = Medida.query.get(produto.id_medida_id)
@@ -560,13 +541,18 @@ def produtos_cadastrados():
         p.nome_categoria = categoria.nome_categoria
         p.nome_marca = marca.nome_marca
         p.nome_medida = medida.nome_medida
-    return render_template("produtos_cadastrados.html", produtos=produtos, categorias=categorias, marcas=marcas, medidas=medidas)
+    return render_template("produtos_cadastrados.html", produtos=produtos,
+                           categorias=categorias, marcas=marcas,
+                           medidas=medidas)
+
 
 @app.route("/categorias_cadastradas")
 @login_required
 def categorias_cadastradas():
     categorias = Categoria.query.all()
-    return render_template("categorias_cadastradas.html", categorias=categorias)
+    return render_template("categorias_cadastradas.html",
+                           categorias=categorias)
+
 
 @app.route("/marcas_cadastradas")
 @login_required
@@ -574,17 +560,20 @@ def marcas_cadastradas():
     marcas = Marca.query.all()
     return render_template("marcas_cadastradas.html", marcas=marcas)
 
+
 @app.route("/medidas_cadastradas")
 @login_required
 def medidas_cadastradas():
     medidas = Medida.query.all()
     return render_template("medidas_cadastradas.html", medidas=medidas)
 
+
 @app.route("/deletar_produto/<int:id>")
 @login_required
 def deletar_produto(id):
     produto = Produto.query.get(id)
-    # Criar uma função para fazer as linha de código abaixo, pois elas se repetem em mais de uma rota
+    # Criar uma função para fazer as linha de código abaixo,
+    # pois elas se repetem em mais de uma rota
     categoria = Categoria.query.get(produto.id_categoria_id)
     marca = Marca.query.get(produto.id_marca_id)
     medida = Medida.query.get(produto.id_medida_id)
@@ -620,52 +609,35 @@ def add_categoria():
         categorias = Categoria.query.all()
         for c in categorias:
             if c.nome_categoria == request.form['nome_categoria']:
-                print("Categoria já existe!")
+                flash("Categoria já existe!!!")
                 return redirect(url_for('listar_categorias'))
         categoria = Categoria(request.form['nome_categoria'])
         db.session.add(categoria)
         db.session.commit()
-        print("Categoria Cadastrada!")
+        flash("Categoria Cadastrada!!!")
         return redirect(url_for('listar_categorias'))
 
-
-# @app.route("/edit_categoria/<int:id>", methods=['GET', 'POST'])
-# @login_required
-# def edit_categoria(id):
-#     categoria = Categoria.query.get(id)
-#     if request.method == 'POST':
-#         categorias = Usuario.query.all()
-#         for c in categorias:
-#             if c.id != categoria.id:
-#                 if c.nome_categoria == request.form['nome_categoria']:
-#                     # print('Essa Categoria já foi cadastrada')
-#                     return redirect(url_for('listar_categorias'))
-#         categoria.nome_categoria = request.form['nome_categoria']
-#         # print('Categoria cadastrada com sucesso')
-#         db.session.commit()
-#         return listar_categorias()
-#     return listar_categorias()
 
 @app.route("/edit_categoria/<int:id>", methods=['GET', 'POST'])
 @login_required
 def edit_categoria(id):
-    print("Cheguei aqui no editar categoria")
     categoria = Categoria.query.get(id)
     if request.method == 'POST':
         categorias = Categoria.query.all()
         for c in categorias:
             if c.id != categoria.id:
                 if c.nome_categoria == request.form['nome_categoria']:
-                    # print('Essa Categoria já foi cadastrada')
-                    return redirect(url_for('listar_categorias'))
+                    flash("Categoria já existe!!!")
+                    return categorias_cadastradas()
         categoria.nome_categoria = request.form['nome_categoria']
-        print('Categoria alterada com sucesso')
         db.session.commit()
+        flash("Categoria Alterada!!!")
         return categorias_cadastradas()
     if categoria:
         return json.dumps(categoria.serialized())
-        print('Não existe essa categoria método GET!!!')
-    return redirect(url_for('produtos_cadastrados'))
+    print('Não existe essa categoria método GET!!!')
+    return categorias_cadastradas()
+
 
 @app.route("/delete_categoria/<int:id>")
 @login_required
@@ -690,10 +662,12 @@ def add_marca():
         marcas = Marca.query.all()
         for m in marcas:
             if m.nome_marca == request.form['nome_marca']:
-                return redirect(url_for('produtos_cadastrados'))
+                flash("Marca já existe!!!")
+                return redirect(url_for('listar_marcas'))
         marca = Marca(request.form['nome_marca'])
         db.session.add(marca)
         db.session.commit()
+        flash("Marca Cadastrada!!!")
         return redirect(url_for('listar_marcas'))
     return redirect(url_for('listar_marcas'))
 
@@ -707,15 +681,15 @@ def edit_marca(id):
         for m in marcas:
             if m.id != marca.id:
                 if m.nome_marca == request.form['nome_marca']:
-                    # print('Essa Categoria já foi cadastrada')
-                    return redirect(url_for('listar_marca'))
+                    flash("Marca já existe!!!")
+                    return redirect(url_for('listar_marcas'))
         marca.nome_marca = request.form['nome_marca']
-        # print('Marca cadastrada com sucesso')
         db.session.commit()
+        flash("Marca Alterada!!!")
         return marcas_cadastradas()
     if marca:
         return json.dumps(marca.serialized())
-        print('Não existe essa marca método GET!!!')
+    print('Não existe essa marca método GET!!!')
     return redirect(url_for('produtos_cadastrados'))
 
 
@@ -742,10 +716,12 @@ def add_medida():
         medidas = Medida.query.all()
         for m in medidas:
             if m.nome_medida == request.form['nome_medida']:
-                return redirect(url_for('produtos_cadastrados'))
+                flash("Medida já existe!!!")
+                return redirect(url_for('listar_medidas'))
         medida = Medida(request.form['nome_medida'])
         db.session.add(medida)
         db.session.commit()
+        flash("Medida Cadastrada!!!")
         return redirect(url_for('listar_medidas'))
     return redirect(url_for('listar_medidas'))
 
@@ -759,15 +735,15 @@ def edit_medida(id):
         for m in medidas:
             if m.id != medida.id:
                 if m.nome_medida == request.form['nome_medida']:
-                    # print('Essa Categoria já foi cadastrada')
+                    flash("Medida já existe!!!")
                     return redirect(url_for('listar_medidas'))
         medida.nome_medida = request.form['nome_medida']
-        # print('Categoria cadastrada com sucesso')
         db.session.commit()
+        flash("Medida Alterada!!!")
         return medidas_cadastradas()
     if medida:
         return json.dumps(medida.serialized())
-        print('Não existe essa medida método GET!!!')
+    print('Não existe essa medida método GET!!!')
     return redirect(url_for('produtos_cadastrados'))
 
 
@@ -791,35 +767,41 @@ def listar_medidas():
 @login_required
 def tipo_pagamento():
     tipo_pagamentos = TipoPagamento.query.all()
-    return render_template('tipo_pagamento.html', tipo_pagamentos=tipo_pagamentos)
+    return render_template('tipo_pagamento.html',
+                           tipo_pagamentos=tipo_pagamentos)
 
- 
+
 @app.route("/add_venda", methods=['GET', 'POST'])
 @login_required
 def add_venda():
-    #Inserir uma nova venda
+    # Inserir uma nova venda
     dataVenda = datetime
     usuario = app.id_usuario
-    statusVenda = 100 # Na table StatusVenda, devemos sempre passar o msm cod_status_venda para tornar universal o código.
+    # Na table StatusVenda, devemos sempre passar o msm cod_status_venda
+    # para tornar universal o código.
+    statusVenda = 100
     novaVenda = Venda(dataVenda, 0, usuario, statusVenda)
     db.session.add(novaVenda)
-    #Retornar o ID da nova venda
+    # Retornar o ID da nova venda
     id = db.session.flush()
-    db.session.commit()    
+    db.session.commit()
     venda = Venda.query.get(id)
-    return render_template('novaVenda.html', venda = venda)
+    return render_template('novaVenda.html', venda=venda)
 
 # DEF consultar produtos na venda (formulário de itens da venda)
 # Função de calcular os itens da venda - retornar uma str com o valor total
+
 
 def consultar_prod_venda(id_venda):
     produtos = DetalhesVenda.query.get(id_venda)
     vltotal = 0
     for p in produtos:
-        vltotal += p.valor_total  
-    return render_template("novaVenda.html", produtos = produtos, venda = id_venda, vltotal=vltotal)
-        
-#DEF add produto na venda (formulario de incluir item na venda)
+        vltotal += p.valor_total
+    return render_template("novaVenda.html", produtos=produtos,
+                           venda=id_venda, vltotal=vltotal)
+
+# DEF add produto na venda (formulario de incluir item na venda)
+
 
 @app.route("/add_prod_venda", methods=['GET', 'POST'])
 @login_required
@@ -827,37 +809,46 @@ def add_prod_venda(quantidade_prod, cod_barras, id_venda):
     produto = Produto.query.get(cod_barras)
     detalheVenda = DetalhesVenda.query.get(id_venda)
     if produto.cod_barras != "":
-        produtoVenda = DetalhesVenda(max(detalheVenda.numero_item) + 1, quantidade_prod, produto.descricao_produto, produto.valor_produto, 0, quantidade_prod * produto.valor_produto)
+        produtoVenda = DetalhesVenda(max(detalheVenda.numero_item) + 1,
+                                     quantidade_prod,
+                                     produto.descricao_produto,
+                                     produto.valor_produto, 0,
+                                     quantidade_prod * produto.valor_produto)
         db.session.add(produtoVenda)
         db.session.commit()
     consultar_prod_venda(id_venda)
-    
-#DEF fechar_venda (Botão Fechar)
-    #> Chamar DEF alterar_status_venda e passar o cod_status_venda de fechar(200)
-    #Direcionar para a tela de Pagamento(Passar o Id_Venda, Valor Total)
+
+# DEF fechar_venda (Botão Fechar)
+    # > Chamar DEF alterar_status_venda e passar o
+    # cod_status_venda de fechar(200)
+    # Direcionar para a tela de Pagamento(Passar o Id_Venda, Valor Total)
+
+
 @app.route("/fechar_venda", methods=['GET', 'POST'])
 @login_required
 def fechar_venda(Id_Venda, ValorTotal):
     alterar_status_venda(Id_Venda, 200)
     renderiza_pagamento(Id_Venda, ValorTotal, 0, ValorTotal)
 
+
 @app.route("/cancelar_venda", methods=['GET', 'POST'])
 @login_required
 def cacelar_venda(Id_Venda):
     alterar_status_venda(Id_Venda, 400)
     return render_template("vendas.html")
-    
 
-#DEF alterar_status_venda(cancelar/fechar) a venda 
-    #Cod_status_venda(100 - Aberta(Nova venda), 200 - Fechado, 300 - Finalizado, 400 - Cancelado)
-    #Update tabela venda com o status recebido
+
+# DEF alterar_status_venda(cancelar/fechar) a venda
+    # Cod_status_venda(100 - Aberta(Nova venda), 200 - Fechado,
+    # 300 - Finalizado, 400 - Cancelado)
+    # Update tabela venda com o status recebido
 def alterar_status_venda(id_venda, cod_status):
     venda = Venda.query.get(id_venda)
     venda.cod_status_venda = cod_status
-    db.session.commit()  
+    db.session.commit()
 
- 
-#DEF para add valor no DetalhesPagamento (Salvar)
+
+# DEF para add valor no DetalhesPagamento (Salvar)
 @app.route("/add_valor_pagamento", methods=['GET', 'POST'])
 @login_required
 def add_valor_detalhespgto(id_venda, id_tipo_pgto, valorpago, valortotal):
@@ -867,7 +858,8 @@ def add_valor_detalhespgto(id_venda, id_tipo_pgto, valorpago, valortotal):
     consultar_valor_detalhespgto(id_venda, valortotal)
 
 
-#DEF para consultar o valor que já foi add no DetalhesPagamento (Valor pago e restante)
+# DEF para consultar o valor que já foi add no DetalhesPagamento
+# (Valor pago e restante)
 def consultar_valor_detalhespgto(id_venda, valortotal):
     valorespagos = DetalhesPagamento.query.get(id_venda)
     valorpagototal = 0
@@ -878,24 +870,29 @@ def consultar_valor_detalhespgto(id_venda, valortotal):
 
 
 def renderiza_pagamento(id_venda, valortotal, valorpago, valorrestante):
-    return render_template("pagamento.html", idvenda=id_venda, valortotal=valortotal, valorpago = valorpago, valorrestante = valorrestante)
+    return render_template("pagamento.html", idvenda=id_venda,
+                           valortotal=valortotal, valorpago=valorpago,
+                           valorrestante=valorrestante)
 
 
-#DEF finalizar a venda com o pagamento (tela de pgto)
-    #> Chamar DEF alterar_status_venda e passar o cod_status_venda de finalizado(300)
+# DEF finalizar a venda com o pagamento (tela de pgto)
+    # > Chamar DEF alterar_status_venda e passar o cod_status_venda
+    # de finalizado(300)
 @app.route("/finalizar_venda", methods=['GET', 'POST'])
 @login_required
 def finalizar_venda(Id_Venda):
     alterar_status_venda(Id_Venda, 300)
     return render_template("vendas.html")
 
-#Fazer HTML vendas.html(igual o de produtos_cadastrados) e o pagamento.html(vide garrancho no caderno kkkkk)
+# Fazer HTML vendas.html(igual o de produtos_cadastrados)
+# e o pagamento.html(vide garrancho no caderno kkkkk)
 
-    
-#DEF listar todas as vendas (tela de lista com botão de nova venda e detalhes da venda)
 
-#DEF exibir dados da venda (modal) - Botão Detalhes Venda
-    
+# DEF listar todas as vendas (tela de lista com botão de nova venda
+# e detalhes da venda)
+
+# DEF exibir dados da venda (modal) - Botão Detalhes Venda
+
 '''
 print("# ********************** TESTES NÍVEL DE ACESSO ********************** #")
 # nivel_acesso

@@ -81,10 +81,10 @@
     {% for message in messages %}
       
       {% if message %}
-        <p id="produto_ja_existe" class="hider">{{message}}</p>
+        <p id="medida_ja_existe" class="hider">{{message}}</p>
         <script>
-          produto_ja_existe = document.getElementById('produto_ja_existe')
-          alert(produto_ja_existe.innerText)
+          medida_ja_existe = document.getElementById('medida_ja_existe')
+          alert(medida_ja_existe.innerText)
         </script>
       {% endif %}
     {% endfor %} 

@@ -19,3 +19,11 @@ Limitar a quantidade dos caracteres em todos os inputs para que não dê erro na
 
 * Criar função para inativar produto
 
+
+
+/************************************** PERGUNTAS **************************************/
+
+Por que o atributo id_cliente_id não foi colocado no init da classe venda, já que foi colocado na tabela? 
+
+Já que usaremos o cod_status_venda, podemos remover o atributo status_venda da classe StatusVenda pu vamos usá-lo em alguma parte do sistema?
+

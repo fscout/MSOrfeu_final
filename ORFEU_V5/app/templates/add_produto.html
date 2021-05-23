@@ -69,7 +69,7 @@
     <div class="form-group col-md-4">
       <label class="fill2" for="id_categoria">Categorias:</label>
       <select class="form-select id_categ_select" aria-label="Default select example" id="id_categ_select" onchange="add_categoria()">
-        <option selected>Escolha uma Categoria</option>
+        <!-- <option selected>Escolha uma Categoria</option> -->
         {% for c in categorias %}
         <option value="{{c.id}}">{{c.nome_categoria}}</option>
         {% endfor %}
@@ -86,7 +86,7 @@
     <div class="form-group col-md-4">
       <label class="fill2" for="id_marca">Marca:</label>
       <select class="form-select id_marca_select" aria-label="Default select example" id="id_marca_select" onchange="add_marca()">
-        <option selected>Escolha uma Marca</option>
+        <!-- <option selected>Escolha uma Marca</option> -->
         {% for m in marcas %}
         <option value="{{m.id}}">{{m.nome_marca}}</option>
         {% endfor %}
@@ -105,7 +105,7 @@
       <label class="fill2" for="id_medida">Medida:</label>
 
       <select class="form-select id_medida_select" aria-label="Default select example" id="id_medida_select" onchange="add_medida()">
-        <option selected>Escolha uma Medida</option>
+        <!-- <option selected>Escolha uma Medida</option> -->
         {% for m in medidas %}
         <option value="{{m.id}}">{{m.nome_medida}}</option>
         {% endfor %}

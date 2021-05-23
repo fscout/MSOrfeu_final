@@ -42,8 +42,15 @@
     {% if messages %}
       <ul class=flashes>
       {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
+        
+        {% if message %}
+          <p id="marca_ja_existe" class="hider">{{message}}</p>
+          <script>
+            marca_ja_existe = document.getElementById('marca_ja_existe')
+            alert(marca_ja_existe.innerText)
+          </script>
+        {% endif %}
+      {% endfor %} 
       </ul>
     {% endif %}
   {% endwith %}

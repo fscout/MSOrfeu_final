@@ -8,8 +8,6 @@
 {% block main %}
 
 <!-- <p class="ocultar nivel">{{current_user.nivel_acesso}}</p>
-
-
 <div class="container hider" align="center"> -->
 
 
@@ -96,10 +94,10 @@
     {% for message in messages %}
       
       {% if message %}
-        <p id="produto_ja_existe" class="hider">{{message}}</p>
+        <p id="categoria_ja_existe" class="hider">{{message}}</p>
         <script>
-          produto_ja_existe = document.getElementById('produto_ja_existe')
-          alert(produto_ja_existe.innerText)
+          categoria_ja_existe = document.getElementById('categoria_ja_existe')
+          alert(categoria_ja_existe.innerText)
         </script>
       {% endif %}
     {% endfor %} 

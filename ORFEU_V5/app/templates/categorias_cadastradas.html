@@ -42,8 +42,15 @@
     {% if messages %}
       <ul class=flashes>
       {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
+        
+        {% if message %}
+          <p id="categoria_ja_existe" class="hider">{{message}}</p>
+          <script>
+            categoria_ja_existe = document.getElementById('categoria_ja_existe')
+            alert(categoria_ja_existe.innerText)
+          </script>
+        {% endif %}
+      {% endfor %} 
       </ul>
     {% endif %}
   {% endwith %}
