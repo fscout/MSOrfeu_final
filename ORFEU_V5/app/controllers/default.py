@@ -161,7 +161,6 @@ def edit_usuario(id):
 @app.route("/edit_usuario/<int:id>", methods=['GET', 'POST'])
 @login_required
 def edit_usuario(id):
-    print(request.form['id_nivel_acesso_id'], " Nivel de acesso")
     usuario = Usuario.query.get(id)
     if request.method == 'POST':
         usuarios = Usuario.query.all()
@@ -794,7 +793,7 @@ def tipo_pagamento():
     tipo_pagamentos = TipoPagamento.query.all()
     return render_template('tipo_pagamento.html', tipo_pagamentos=tipo_pagamentos)
 
-
+ 
 @app.route("/add_venda", methods=['GET', 'POST'])
 @login_required
 def add_venda():

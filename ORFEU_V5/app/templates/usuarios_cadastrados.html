@@ -44,9 +44,9 @@
           </a>
         </td>
 
-        <td>
+        <!-- <td>
           <a href="/deletar_usuario/{{u.id}}"> <img src="{{url_for('static', filename='images/remover.png')}}"></a>
-        </td>
+        </td> -->
 
 
         {% if u.verificar_status() == 'BLOQUEADO' %}
@@ -122,10 +122,15 @@
               <label for="id_nivel_acesso">Nível de Acesso:</label>
 
               <select class="form-control" aria-label="Default select example" id="id_nivel_acesso_select">
+                {% for n in niveis %}
+                <option value="{{n.id}}">{{n.nivel_acesso}}</option>
+                {% endfor %}
+              </select>
+              <!-- <select class="form-control" aria-label="Default select example" id="id_nivel_acesso_select">
                 {% for u in usuarios %}
                 <option value="{{u.id}}">{{u.exibir_nivel_acesso()}}</option>
                 {% endfor %}
-              </select>
+              </select> -->
 
             </div>
 
@@ -167,7 +172,7 @@ telefone
 email
 login -->
 
-
+ 
 <script>
   function setaDadosModal(valor) {
     document.getElementById('idUsuario').value = valor;

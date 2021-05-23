@@ -294,7 +294,7 @@ class Cliente(db.Model):
         O método abaixo diminuirá a dívida do cliente sempre que ele
     efetuar um pagamento
     '''
-
+ 
     def diminuir_divida(self, valor):
         self.valor_divida += +(valor)
         db.session.add(self)

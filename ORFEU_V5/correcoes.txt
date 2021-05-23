@@ -14,3 +14,8 @@ Colocar menssagem flash nas rotas
 
 Criar uma tela ou modal caso o usuário queira alterar sua senha.
 
+
+Limitar a quantidade dos caracteres em todos os inputs para que não dê erro na hora de salvar no banco. EX: telefone não pode ter mais de 11 caracteres
+
+* Criar função para inativar produto
+
