@@ -5,7 +5,6 @@ import datetime
 from app.models import recuperacao_senha
 
 
-
 '''
 Não esquecer de remover todos os comentários desnecessários.
     OBS:
@@ -188,6 +187,15 @@ class Usuario(db.Model, UserMixin):
         db.session.commit()
         # return self.verificar_status()
 
+    def serialized(self):
+        return {
+            'nome': self.nome,
+            'id_nivel_acesso_id': self.id_nivel_acesso_id,
+            'telefone': self.telefone,
+            'email': self.email,
+            'login': self.login,
+        }
+
     def __repr__(self):
         return "<User %r>" % self.id
 
@@ -247,7 +255,6 @@ class Cliente(db.Model):
         db.session.commit()
         # return self.verificar_status()
 
-
     '''
         O método abaixo atualiza a data que o comerciante determinará para
     o cliente efetuar o pagamento da dívida
@@ -305,6 +312,17 @@ class Cliente(db.Model):
         db.session.commit()
 
         # return self.verificar_status()
+
+    def serialized(self):
+        return {
+            'nome': self.nome,
+            'telefone': self.telefone,
+            'cpf': self.cpf,
+            'valor_divida': self.valor_divida,
+            'data_pagamento': self.data_pagamento,
+            'data_ultima_compra': self.data_ultima_compra,
+            'observacao': self.observacao,
+        }
 
     def __repr__(self):
         return "<Cliente %r>" % self.id
@@ -400,7 +418,7 @@ class Produto(db.Model):
 
     def __repr__(self):
         return "<Produto %r>" % self.id
-    
+
     def serialized(self):
         return {
             'codigo_barras': self.codigo_barras,
@@ -431,18 +449,20 @@ class Venda(db.Model):
     id_cliente_id = db.Column(db.Integer, db.ForeignKey("cliente.id"))
     cliente = db.relationship('Cliente')
 
+    cod_status_venda = db.Column(db.Integer, nullable=False)
+
     now = datetime.datetime.now()
 
-    def __init__(self, id_usuario_id, id_cliente_id=None):
+    def __init__(self, data_venda, valor_total, id_usuario_id, cod_status_venda):
         self.data_venda = datetime.datetime(year=self.now.year,
                                             month=self.now.month,
                                             day=self.now.day,
                                             hour=self.now.hour,
                                             minute=self.now.minute,
                                             second=self.now.second)
-        self.valor_total = 0
+        self.valor_total = valor_total
         self.id_usuario_id = id_usuario_id
-        self.id_cliente_id = id_cliente_id
+        self.cod_status_venda = cod_status_venda
 
     def __repr__(self):
         return "<Venda %r>" % self.id
@@ -458,6 +478,20 @@ class TipoPagamento(db.Model):
 
     def __repr__(self):
         return "<TipoPagamento %r>" % self.id
+
+
+class StatusVenda(db.Model):
+    __tablename__ = "status_venda"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    status_venda = db.Column(db.String(15), nullable=False, unique=True)
+    cod_status_venda = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, status_venda, cod_status_venda):
+        self.status_venda = status_venda
+        self.cod_status_venda = cod_status_venda
+
+    def __repr__(self):
+        return "<StatusVenda %r>" % self.id
 
 
 class DetalhesPagamento(db.Model):
@@ -487,9 +521,12 @@ class DetalhesPagamento(db.Model):
 class DetalhesVenda(db.Model):
     __tablename__ = "detalhes_venda"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    numero_item = db.Column(db.Integer, nullable=False)
     quantidade_produto = db.Column(db.Integer, nullable=False)
+    descricao_produto = db.Column(db.String(50))
     valor_produto = db.Column(db.Float(2, 0))
     valor_desconto = db.Column(db.Float(2, 0))
+    valor_total = db.Column(db.Float(2, 0))
     troca = db.Column(db.String(50))
     devolucao = db.Column(db.String(50))
 
@@ -563,16 +600,3 @@ class MovimentacaoCaixa(db.Model):
 
     def __repr__(self):
         return "<MovimentacaoCaixa %r>" % self.id
-
-
-class StatusVenda(db.Model):
-    __tablename__ = "StatusVenda"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    status = db.Column(db.String(15), nullable=False, unique=True)
-
-    def __init__(self, status):
-        self.status = status
-
-    def __repr__(self):
-        return "<Status %r>" % self.id
-    

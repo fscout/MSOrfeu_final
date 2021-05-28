@@ -42,8 +42,10 @@ body, html{
 }
     
 .btn{
+    overflow: hidden;
+    white-space: nowrap;
     margin-top: 0.5%;
-    margin-left: 30px;
+    padding-left: 30px;
     width: 260px;
     height: 45px;
     color: rgb(0, 183, 255);
@@ -56,7 +58,7 @@ body, html{
 }
 
 .btn-vendas{
-    margin-left: -0.5%;
+    margin-left: -5%;
     border-radius: 0px 0px 0px 0px;
 }
 
@@ -101,4 +103,31 @@ body, html{
     margin-top: 4px;
     width: 60px;
     height: 60px;
+}
+
+.inputValores{
+    float: right;
+    margin-right: 20px;
+    margin-top: 15px;
+    width: 300px;
+    height: 500px;
+}
+
+.tabela-venda{
+    padding-top: 15%;
+    margin-left: 10px;
+    width: 900px;
+    height: 100px;
+}
+
+.btnVenda{
+    margin-top: 30px;
+}
+
+.inputTotalStatic{
+    margin-top: 520px;
+}
+
+.campotexto{
+    width: 280px;
 }
