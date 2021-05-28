@@ -716,7 +716,7 @@ def tipo_pagamento():
 @app.route("/add_venda/<int:id>", methods=['GET', 'POST'])
 @login_required
 def add_venda(id):
-    print(id)
+    print(id, "Adicionei uma nova venda!")
     if id == 0:
     #Inserir uma nova venda
         dataVenda = datetime
@@ -727,20 +727,21 @@ def add_venda(id):
     #Retornar o ID da nova venda
         id = db.session.flush()
         db.session.commit()    
-    
-    venda = Venda.query.get(id)
-    return render_template('novaVenda.html', venda = venda)
+    # venda = Venda.query.get(id)
+    return consultar_prod_venda(id)
 
 # DEF consultar produtos na venda (formulário de itens da venda)
 # Função de calcular os itens da venda - retornar uma str com o valor total
 
 def consultar_prod_venda(id_venda):
     produtos = DetalhesVenda.query.get(id_venda)
-    vltotal = 0
-    for p in produtos:
-        vltotal += p.valor_total  
-    return render_template("novaVenda.html", produtos = produtos, venda = id_venda, vltotal=vltotal)
-        
+    if produtos:
+        vltotal = 0
+        for p in produtos:
+            vltotal += p.valor_total
+        return render_template("novaVenda.html", produtos = produtos, venda = id_venda, vltotal=vltotal)
+    
+    return render_template("novaVenda.html", produtos = produtos)
 #DEF add produto na venda (formulario de incluir item na venda)
 
 @app.route("/add_prod_venda", methods=['GET', 'POST'])
@@ -854,8 +855,8 @@ print()
 print()
 print()
 '''
-'''
 
+'''
 print("# ********************** TESTES USUARIO ********************** #")
 # nome, telefone, email, login, senha, id_nivel_acesso_id=2
 
