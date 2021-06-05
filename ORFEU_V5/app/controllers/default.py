@@ -715,7 +715,13 @@ def tipo_pagamento():
 
 @app.route("/add_venda", methods=['GET', 'POST'])
 @login_required
+<<<<<<< HEAD
 def add_venda():
+=======
+def add_venda(id):
+    print(id, "Adicionei uma nova venda!")
+    if id == 0:
+>>>>>>> 7a51f3faa82eb637153ad5110891798dc4ad6ba3
     #Inserir uma nova venda
     dataVenda = datetime
     usuario = app.id_usuario
@@ -723,11 +729,18 @@ def add_venda():
     novaVenda = Venda(dataVenda, 0, usuario, statusVenda)
     db.session.add(novaVenda)
     #Retornar o ID da nova venda
+<<<<<<< HEAD
     db.session.flush()
     db.session.commit()
     id = novaVenda.id
     url = '/venda/' + str(id)
     return redirect(url)
+=======
+        id = db.session.flush()
+        db.session.commit()    
+    # venda = Venda.query.get(id)
+    return consultar_prod_venda(id)
+>>>>>>> 7a51f3faa82eb637153ad5110891798dc4ad6ba3
 
 # DEF consultar produtos na venda (formulário de itens da venda)
 # Função de calcular os itens da venda - retornar uma str com o valor total
@@ -735,12 +748,23 @@ def add_venda():
 @app.route("/venda/<int:id_venda>", methods=['GET', 'POST'])
 @login_required
 def consultar_prod_venda(id_venda):
+<<<<<<< HEAD
     produtos_venda = list(DetalhesVenda.query.filter_by(id_venda_id = id_venda))
     vltotal = 0
     for p in produtos_venda:
         vltotal += p.valor_total  
     return render_template("novaVenda.html", produtos = produtos_venda, venda = id_venda, vltotal=vltotal)
                 
+=======
+    produtos = DetalhesVenda.query.get(id_venda)
+    if produtos:
+        vltotal = 0
+        for p in produtos:
+            vltotal += p.valor_total
+        return render_template("novaVenda.html", produtos = produtos, venda = id_venda, vltotal=vltotal)
+    
+    return render_template("novaVenda.html", produtos = produtos)
+>>>>>>> 7a51f3faa82eb637153ad5110891798dc4ad6ba3
 #DEF add produto na venda (formulario de incluir item na venda)
 
 @app.route("/add_prod_venda", methods=['GET', 'POST'])
@@ -920,8 +944,8 @@ print()
 print()
 print()
 '''
-'''
 
+'''
 print("# ********************** TESTES USUARIO ********************** #")
 # nome, telefone, email, login, senha, id_nivel_acesso_id=2
 
