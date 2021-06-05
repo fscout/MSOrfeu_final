@@ -1,4 +1,4 @@
-# from flask import Blueprint
+#from flask import Blueprint
 import json
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required
@@ -713,34 +713,34 @@ def tipo_pagamento():
     return render_template('tipo_pagamento.html', tipo_pagamentos=tipo_pagamentos)
 
 
-@app.route("/add_venda/<int:id>", methods=['GET', 'POST'])
+@app.route("/add_venda", methods=['GET', 'POST'])
 @login_required
-def add_venda(id):
-    print(id)
-    if id == 0:
+def add_venda():
     #Inserir uma nova venda
-        dataVenda = datetime
-        usuario = app.id_usuario
-        statusVenda = 100 # Na table StatusVenda, devemos sempre passar o msm cod_status_venda para tornar universal o código.
-        novaVenda = Venda(dataVenda, 0, usuario, statusVenda)
-        db.session.add(novaVenda)
+    dataVenda = datetime
+    usuario = app.id_usuario
+    statusVenda = 100 # Na table StatusVenda, devemos sempre passar o msm cod_status_venda para tornar universal o código.
+    novaVenda = Venda(dataVenda, 0, usuario, statusVenda)
+    db.session.add(novaVenda)
     #Retornar o ID da nova venda
-        id = db.session.flush()
-        db.session.commit()    
-    
-    venda = Venda.query.get(id)
-    return render_template('novaVenda.html', venda = venda)
+    db.session.flush()
+    db.session.commit()
+    id = novaVenda.id
+    url = '/venda/' + str(id)
+    return redirect(url)
 
 # DEF consultar produtos na venda (formulário de itens da venda)
 # Função de calcular os itens da venda - retornar uma str com o valor total
 
+@app.route("/venda/<int:id_venda>", methods=['GET', 'POST'])
+@login_required
 def consultar_prod_venda(id_venda):
-    produtos = DetalhesVenda.query.get(id_venda)
+    produtos_venda = list(DetalhesVenda.query.filter_by(id_venda_id = id_venda))
     vltotal = 0
-    for p in produtos:
+    for p in produtos_venda:
         vltotal += p.valor_total  
-    return render_template("novaVenda.html", produtos = produtos, venda = id_venda, vltotal=vltotal)
-        
+    return render_template("novaVenda.html", produtos = produtos_venda, venda = id_venda, vltotal=vltotal)
+                
 #DEF add produto na venda (formulario de incluir item na venda)
 
 @app.route("/add_prod_venda", methods=['GET', 'POST'])
@@ -749,19 +749,35 @@ def add_prod_venda():
     quantidade_prod = request.form['quantidade_prod']
     cod_barras = request.form['cod_barras']
     id_venda = request.form['id_venda']
-    produtos = Produto.query.all()
-    id_produto = 0
-    for p in produtos:
-        if p.codigo_barras == cod_barras:
-            id_produto = p.id
+    produtos = Produto.query.filter_by(codigo_barras = cod_barras)
+    id_produto = produtos[0].id
     produto = Produto.query.get(id_produto)
-    detalheVenda = DetalhesVenda.query.get(id_venda)
-    if produto.cod_barras != "":
-        produtoVenda = DetalhesVenda(max(detalheVenda.numero_item) + 1, quantidade_prod, produto.descricao_produto, produto.valor_produto, 0, quantidade_prod * produto.valor_produto)
+    detalheVenda = list(DetalhesVenda.query.filter_by(id_venda_id = id_venda))
+    numero_item = 0
+    if len(detalheVenda) > 0 :
+        numero_item = detalheVenda[len(detalheVenda) - 1].numero_item
+    if produto.codigo_barras != "":
+        produtoVenda = DetalhesVenda(numero_item + 1, quantidade_prod, produto.descricao_produto, produto.preco_venda, id_venda, id_produto)
         db.session.add(produtoVenda)
         db.session.commit()
-    print(produtoVenda)
-    consultar_prod_venda(id_venda)
+    url = '/venda/' + str(id_venda)
+    return redirect(url)
+
+@app.route("/edit_produto_venda/<int:id>", methods=['GET', 'POST'])
+@login_required
+def edit_produto_venda(id):
+    produto = DetalhesVenda.query.get(id)
+    if request.method == 'POST':
+        if produto:
+            produto.valor_desconto = request.form['valor_desconto']
+            produto.valor_total = (produto.valor_produto - produto.valor_desconto) * float(produto.quantidade_produto)
+            db.session.commit()
+        url = '/venda/' + str(produto.id_venda_id)
+        return redirect(url)
+    else:   
+        print(produto.serialized())
+        return json.dumps(produto.serialized())
+    
     
 #DEF fechar_venda (Botão Fechar)
     #> Chamar DEF alterar_status_venda e passar o cod_status_venda de fechar(200)
@@ -826,7 +842,57 @@ def finalizar_venda(Id_Venda):
 #DEF listar todas as vendas (tela de lista com botão de nova venda e detalhes da venda)
 
 #DEF exibir dados da venda (modal) - Botão Detalhes Venda
-    
+
+# print("# ********************** TESTES ADD PRODUTO NA VENDA ********************** #")
+# quantidade_prod = 1
+# cod_barras = '546446767'
+# id_venda = 127
+# produtos = Produto.query.filter_by(codigo_barras = cod_barras)
+# id_produto = produtos[0].id
+# print(id_produto)
+# produto = Produto.query.get(id_produto)
+# detalheVenda = list(DetalhesVenda.query.filter_by(id_venda_id = id_venda))
+# print(detalheVenda)
+# numero_item = 0
+# if len(detalheVenda) > 0 :
+#     numero_item = detalheVenda[len(detalheVenda) - 1].numero_item
+#     print(numero_item)
+# if produto.codigo_barras != "":
+#     produtoVenda = DetalhesVenda(numero_item + 1, quantidade_prod, produto.descricao_produto, produto.preco_venda, id_venda, id_produto)
+#     db.session.add(produtoVenda)
+#     db.session.commit()
+# print(produtoVenda)
+# consultar_prod_venda(id_venda)
+
+# venda_produto_01 = DetalhesVenda(1, '00012345')
+# db.session.add(venda_produto_01)
+# db.session.commit()
+# venda_produto_01 = DetalhesVenda.query.get(127)
+
+# print('PRODUTO ID: ', venda_produto_01.quantidade_prod)
+# print('PRODUTO CODIGO_BARRAS: ', venda_produto_01.cod_barras)
+# print('PRODUTO DESCRICAO_PRODUTO: ', venda_produto_01.id_venda)
+# print("# ********************** TESTE NOVA VENDA ********************** #")
+# dataVenda = datetime
+# usuario = 1
+# statusVenda = 100 
+# novaVenda = Venda(dataVenda, 0, usuario, statusVenda)
+# db.session.add(novaVenda)
+# db.session.flush()
+# db.session.commit()
+# id = novaVenda.id
+# print(id)
+
+
+# print("# ********************** TESTES DE CARREGAR TELA ********************** #")
+# id_venda = 127
+# produtos_venda = list(DetalhesVenda.query.filter_by(id_venda_id = id_venda))
+# vltotal = 0
+# for p in produtos_venda:
+#     vltotal += p.valor_total 
+# print(produtos_venda)
+# print(vltotal)
+
 '''
 print("# ********************** TESTES NÍVEL DE ACESSO ********************** #")
 # nivel_acesso

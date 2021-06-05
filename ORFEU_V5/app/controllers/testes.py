@@ -56,7 +56,7 @@
 # select * from justificativa;
 # select * from movimentacao_caixa;
 
-Adionados os modais de editar e excluir na tela de produtos cadastrados
+# Adionados os modais de editar e excluir na tela de produtos cadastrados
 
 print()
 print()

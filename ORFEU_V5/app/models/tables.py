@@ -538,17 +538,30 @@ class DetalhesVenda(db.Model):
         db.Integer, db.ForeignKey("produto.id"), nullable=False)
     produto = db.relationship('Produto')
 
-    def __init__(self, quantidade_produto, id_venda_id, id_produto_id):
+    def __init__(self, numero_item, quantidade_produto, descricao_produto, preco_venda, id_venda_id, id_produto_id):
         self.quantidade_produto = quantidade_produto
-        self.valor_produto = 0
+        self.valor_produto = preco_venda
         self.valor_desconto = 0
         self.troca = ""
         self.devolucao = ""
         self.id_venda_id = id_venda_id
         self.id_produto_id = id_produto_id
+        self.numero_item = numero_item
+        self.descricao_produto = descricao_produto
+        self.valor_total = float(quantidade_produto) * preco_venda
+        
 
     def __repr__(self):
         return "<DetalhesVenda %r>" % self.id
+    
+    def serialized(self):
+        return {
+            'descricao_produto': self.descricao_produto,
+            'quantidade_produto': self.quantidade_produto,
+            'valor_produto': self.valor_produto,
+            'valor_desconto': self.valor_desconto,
+            'valor_total': self.valor_total
+        }
 
 
 class Justificativa(db.Model):
