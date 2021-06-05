@@ -707,7 +707,7 @@ def listar_medidas():
 
 
 @app.route("/tipo_pagamento")
-@login_required 
+@login_required
 def tipo_pagamento():
     tipo_pagamentos = TipoPagamento.query.all()
     return render_template('tipo_pagamento.html', tipo_pagamentos=tipo_pagamentos)
@@ -736,6 +736,8 @@ def add_venda():
 @login_required
 def consultar_prod_venda(id_venda):
     produtos_venda = list(DetalhesVenda.query.filter_by(id_venda_id = id_venda))
+    # Ordena a lista de produtos do último inserido na lista
+    produtos_venda = sorted(produtos_venda, key=lambda x: x.numero_item, reverse=True)
     vltotal = 0
     for p in produtos_venda:
         vltotal += p.valor_total  
@@ -770,14 +772,23 @@ def edit_produto_venda(id):
     if request.method == 'POST':
         if produto:
             produto.valor_desconto = request.form['valor_desconto']
-            produto.valor_total = (produto.valor_produto - produto.valor_desconto) * float(produto.quantidade_produto)
+            produto.valor_total = (float(produto.valor_produto) - float(produto.valor_desconto)) * float(produto.quantidade_produto)
             db.session.commit()
         url = '/venda/' + str(produto.id_venda_id)
         return redirect(url)
     else:   
         print(produto.serialized())
         return json.dumps(produto.serialized())
-    
+
+@app.route("/deletar_produto_venda/<int:id>")
+@login_required
+def deletar_produto_venda(id):
+    produtoVenda = DetalhesVenda.query.get(id)
+    db.session.delete(produtoVenda)
+    db.session.commit()
+    url = '/venda/' + str(produtoVenda.id_venda_id)
+    return redirect(url)
+
     
 #DEF fechar_venda (Botão Fechar)
     #> Chamar DEF alterar_status_venda e passar o cod_status_venda de fechar(200)
@@ -788,11 +799,11 @@ def fechar_venda(Id_Venda, ValorTotal):
     alterar_status_venda(Id_Venda, 200)
     renderiza_pagamento(Id_Venda, ValorTotal, 0, ValorTotal)
 
-@app.route("/cancelar_venda", methods=['GET', 'POST'])
+@app.route("/cancelar_venda/<int:id>", methods=['GET', 'POST'])
 @login_required
-def cacelar_venda(Id_Venda):
-    alterar_status_venda(Id_Venda, 400)
-    return render_template("vendas.html")
+def cancelar_venda(id):
+    alterar_status_venda(id, 400)
+    return redirect('/listar_vendas')
     
 
 #DEF alterar_status_venda(cancelar/fechar) a venda 
@@ -801,7 +812,7 @@ def cacelar_venda(Id_Venda):
 def alterar_status_venda(id_venda, cod_status):
     venda = Venda.query.get(id_venda)
     venda.cod_status_venda = cod_status
-    db.session.commit()  
+    db.session.commit()
 
  
 #DEF para add valor no DetalhesPagamento (Salvar)
@@ -840,6 +851,13 @@ def finalizar_venda(Id_Venda):
 
     
 #DEF listar todas as vendas (tela de lista com botão de nova venda e detalhes da venda)
+@app.route("/listar_vendas", methods=['GET', 'POST'])
+@login_required
+def vendas_cadastrados():
+    vendas = Venda.query.all()
+    print(vendas)
+    return render_template("vendas.html", vendas=vendas)
+
 
 #DEF exibir dados da venda (modal) - Botão Detalhes Venda
 
@@ -1559,21 +1577,3 @@ print()
 print()
 
 '''
-
-# Rota para adicionar nível de acesso
-@app.route("/add_nivel_admin")
-def add_nivel_admin():
-    admin = NivelAcesso('ADMINISTRADOR')  # ID 1
-    db.session.add(admin)
-    db.session.commit()
-    return "Nivel de Acesso ADMINISTRADOR adicionado com sucesso"
-
-# Rota para adicionar usuário
-@app.route("/add_usuario_admin")
-def add_usuario_admin():
-    administrador = NivelAcesso.query.get(1)
-    admin = Usuario('Admin', '11988881515',
-                    'emprentime@gmail.com', 'admin', '123', administrador.id)
-    db.session.add(admin)
-    db.session.commit()
-    return "Usuario ADMINISTRADOR adicionado com sucesso"

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/logoBessa.png">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/venda.css">
+    <title>Venda</title>
+
+</head>
+<body>
+
+    <!--Modais-->
+    <div class="modal fade" id="modalDesconto">
+        <div class="modal-dialog modal-dm">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h3>Desconto</h3>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="detalhes-venda"><br><br>
+                    <input type="text" class="inputDesconto">
+                </div>
+                <div class="modal-footer">
+                    <input class="btn btn-default" value="Cancelar" type="button">
+                    <input class="btn btn-default" value="Confirmar" type="button">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCancelar">
+        <div class="modal-dialog modal-dm">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h3>Venda</h3>
+                </div>
+                <div class="modal-body">
+                    Deseja cancelar a venda?
+                </div>
+                <div class="modal-footer">
+                    <input class="btn btn-default" value="Cancelar" type="button">
+                    <input class="btn btn-default" value="Confirmar" type="button">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalFinalizar">
+        <div class="modal-dialog modal-dm">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h3>Finalizar venda</h3>
+                </div>
+                <div class="modal-body">
+                    <form action="/action_page.php">
+                        <label for="cars">Forma de Pagamento: </label>
+                        <select name="cars" id="cars">
+                          <option value="volvo">Débito</option>
+                          <option value="volvo">Fiado</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input class="btn btn-default" value="Cancelar" type="button">
+                    <input class="btn btn-default" value="Confirmar" type="button">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--Topo app menu-->
+    <form>
+        <div id="topo">
+            <img src="img/logoBessa.png" class="logo-bessa">
+            <img src="img/login.png" class="login">
+        
+
+            <div class="dropdown">
+                <button href="" class="btn btn-secondary dropdown-toggle btn-vendas" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Caixa
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><button href="" class="dropdown-item" type="button">Abertura</button></li>
+                    <li><button href="" class="dropdown-item" type="button">Fechamento</button></li>
+                </ul>
+
+                <button href="" class="btn btn-secondary dropdown-toggle btn-vendas" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Vendas
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><button href="" class="dropdown-item" type="button">Nova Venda</button></li>
+                    <li><button href="" class="dropdown-item" type="button">Detalhes Venda</button></li>
+                </ul>
+
+                <button href="" class="btn btn-secondary dropdown-toggle btn-produtos" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Produtos
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><button href="" class="dropdown-item" type="button">Cadastrar Produto</button></li>
+                    <li><button href="" class="dropdown-item" type="button">Estoque</button></li>
+                </ul>
+
+                <button href="" class="btn btn-secondary dropdown-toggle btn-usuarios" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Usuários
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><button href="" class="dropdown-item" type="button">Cadastrar Usuário</button></li>
+                    <li><button href="" class="dropdown-item" type="button">Usuários Cadastrados</button></li>
+                </ul>
+
+                <button href="" class="btn btn-secondary dropdown-toggle btn-clientes" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Clientes
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><button href="" class="dropdown-item" type="button">Cadastrar Clientes</button></li>
+                    <li><button href="" class="dropdown-item" type="button">Clientes Cadastrados</button></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!--Parte de vendas-->
+        <div class="div-conteudo">
+
+            <form action="">
+
+                <div class="inputValores">
+                    <input class="inputValores" type="text" class="campotexto" placeholder="Cod. de Barras">
+            
+                    <input class="inputValores" type="text" class="campotexto" placeholder="Descrição">
+                    
+                    <input class="inputValores" type="text" class="campotexto" placeholder="Desconto">
+                   
+                    <input class="inputValores" type="text" class="campotexto" placeholder="Quantidade">
+                
+                    <input class="inputValores" type="text" class="campotexto" placeholder="Sub-Total">
+                </div>
+        
+                <table class="table tabela-venda">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Cod. de Barras</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Desconto</th>
+                        <th scope="col">Quantidade</th>
+                        <th scope="col">Sub-Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Alterar back</th>
+                        <td>Alterar</td>
+                        <td>Alterar</td>
+                        <td>Alterar</td>
+                        <td>Alterar</td>
+                        <td>Alterar</td>
+                    </tr>
+                    </tbody>
+                </table>
+        
+                Total: 
+                <input type="number" class="inputTotalStatic">
+            </form>
+        </div>
+
+        <div class="container btnVenda">
+            <button class="btn btn-secondary" data-toggle="modal" data-target="#modalDesconto">Desconto Item</button>     
+            <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCancelar">Cancelar Venda</button>
+            <button class="btn btn-secondary" data-toggle="modal" data-target="#modalFinalizar">Finalizar Venda</button>
+        </div>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/bootstrap.popper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
