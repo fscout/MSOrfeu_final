@@ -1,4 +1,4 @@
-PASSO A PASSO NO BASH
+PASSO A PASSO NO BASH WINDOWS
  
 1º CRIAR O AMBIENTE VIRTUAL --- virtualenv venv
 2º ATIVAR O AMBIENTE VIRTUAL --- source venv/Scripts/activate
@@ -23,6 +23,18 @@ senha --> 007
 
 
 
+ 
+/**********************************************************/
 
+PASSO A PASSO NO BASH LINUX
 
+1º CRIAR O AMBIENTE VIRTUAL --- virtualenv venv
+2º ATIVAR O AMBIENTE VIRTUAL --- source venv/bin/activate
+3º INSTALAR AS BIBLIOTECAS --- pip3 install -r requirements.txt
+4º APLICAR OS COMANDOS ABAIXO:
 
+Para resolver o problema do psycopg2:
+sudo apt-get install libpq-dev python-dev
+
+Para instalar o psycopg2:
+pip3 install psycopg2 

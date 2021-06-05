@@ -707,7 +707,7 @@ def listar_medidas():
 
 
 @app.route("/tipo_pagamento")
-@login_required
+@login_required 
 def tipo_pagamento():
     tipo_pagamentos = TipoPagamento.query.all()
     return render_template('tipo_pagamento.html', tipo_pagamentos=tipo_pagamentos)
@@ -1559,3 +1559,21 @@ print()
 print()
 
 '''
+
+# Rota para adicionar nível de acesso
+@app.route("/add_nivel_admin")
+def add_nivel_admin():
+    admin = NivelAcesso('ADMINISTRADOR')  # ID 1
+    db.session.add(admin)
+    db.session.commit()
+    return "Nivel de Acesso ADMINISTRADOR adicionado com sucesso"
+
+# Rota para adicionar usuário
+@app.route("/add_usuario_admin")
+def add_usuario_admin():
+    administrador = NivelAcesso.query.get(1)
+    admin = Usuario('Admin', '11988881515',
+                    'emprentime@gmail.com', 'admin', '123', administrador.id)
+    db.session.add(admin)
+    db.session.commit()
+    return "Usuario ADMINISTRADOR adicionado com sucesso"
