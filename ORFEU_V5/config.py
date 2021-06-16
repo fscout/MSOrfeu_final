@@ -17,3 +17,4 @@ SQLALCHEMY_DATABASE_URI = 'postgresql://%(user)s:\
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 SECRET_KEY = '2712'  # Senha para o formulário de login
+
