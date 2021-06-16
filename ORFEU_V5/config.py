@@ -2,8 +2,8 @@ DEBUG = True  # Habilitando o debug, para recebermos as informações de debugs,
 # assim não precisamos reiniciar toda hora o servidor
 POSTGRES = {
     'user': 'postgres',  # Deixar dessa forma
-    'pw': '@And2468',  # Colocar a senha do banco de dados
-    'db': 'orfeuv5',  # Colocar o nome do banco de dados
+    'pw': '2712',  # Colocar a senha do banco de dados
+    'db': 'orfeu',  # Colocar o nome do banco de dados
     'host': 'localhost',  # Deixar dessa forma
     'port': '5432',  # Deixar dessa forma
 }
@@ -16,4 +16,4 @@ SQLALCHEMY_DATABASE_URI = 'postgresql://%(user)s:\
 
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
-SECRET_KEY = '@And2468'  # Senha para o formulário de login
+SECRET_KEY = '2712'  # Senha para o formulário de login
