@@ -793,11 +793,11 @@ def deletar_produto_venda(id):
 #DEF fechar_venda (Botão Fechar)
     #> Chamar DEF alterar_status_venda e passar o cod_status_venda de fechar(200)
     #Direcionar para a tela de Pagamento(Passar o Id_Venda, Valor Total)
-@app.route("/fechar_venda", methods=['GET', 'POST'])
+@app.route("/fechar_venda/<int:id_venda>,<float:vltotal>", methods=['GET', 'POST'])
 @login_required
-def fechar_venda(Id_Venda, ValorTotal):
-    alterar_status_venda(Id_Venda, 200)
-    renderiza_pagamento(Id_Venda, ValorTotal, 0, ValorTotal)
+def fechar_venda(id_venda, vltotal):
+    alterar_status_venda(id_venda, 200)
+    return renderiza_pagamento(id_venda, vltotal, 0, vltotal)
 
 @app.route("/cancelar_venda/<int:id>", methods=['GET', 'POST'])
 @login_required
@@ -813,16 +813,15 @@ def alterar_status_venda(id_venda, cod_status):
     venda = Venda.query.get(id_venda)
     venda.cod_status_venda = cod_status
     db.session.commit()
-
  
 #DEF para add valor no DetalhesPagamento (Salvar)
 @app.route("/add_valor_pagamento", methods=['GET', 'POST'])
 @login_required
-def add_valor_detalhespgto(id_venda, id_tipo_pgto, valorpago, valortotal):
-    detalhepgto = DetalhesPagamento(valorpago, id_tipo_pgto, id_venda)
+def add_valor_detalhespgto(idVenda, id_tipo_pgto, valor_pagamento, valorTotal):
+    detalhepgto = DetalhesPagamento(valor_pagamento, id_tipo_pgto, idVenda)
     db.session.add(detalhepgto)
     db.session.commit()
-    consultar_valor_detalhespgto(id_venda, valortotal)
+    return consultar_valor_detalhespgto(idVenda, valorTotal)
 
 
 #DEF para consultar o valor que já foi add no DetalhesPagamento (Valor pago e restante)
@@ -832,11 +831,13 @@ def consultar_valor_detalhespgto(id_venda, valortotal):
     for v in valorespagos:
         valorpagototal += v.valor
     valorrestante = valortotal - valorpagototal
-    renderiza_pagamento(id_venda, valortotal, valorpagototal, valorrestante)
+    return renderiza_pagamento(id_venda, valortotal, valorpagototal, valorrestante)
 
 
 def renderiza_pagamento(id_venda, valortotal, valorpago, valorrestante):
-    return render_template("pagamento.html", idvenda=id_venda, valortotal=valortotal, valorpago = valorpago, valorrestante = valorrestante)
+    lst_tipo_pagamento = TipoPagamento.query.all()
+    return render_template("pagamento.html", idvenda=id_venda, valortotal=valortotal, valorpago = valorpago, valorrestante = valorrestante, lstTipoPagamento = lst_tipo_pagamento)
+    
 
 
 #DEF finalizar a venda com o pagamento (tela de pgto)
@@ -857,7 +858,6 @@ def vendas_cadastrados():
     vendas = Venda.query.all()
     print(vendas)
     return render_template("vendas.html", vendas=vendas)
-
 
 #DEF exibir dados da venda (modal) - Botão Detalhes Venda
 

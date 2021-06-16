@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ super() }} - Pagamento
+{% endblock title %}
+
+
+{% block main %}
+<!-- <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"> -->
+<!-- <link rel="stylesheet" href="../static/css/base.css"> -->
+<script src="../static/js/jquery.js"></script>
+<script src="../static/bootstrap/js/bootstrap.popper.min.js"></script>
+<script src="../static/bootstrap/js/bootstrap.min.js"></script>
+<div class="container" align="center">
+  <p style="margin-top: 150px;">
+    Total:
+    <input type="number" class="" value="{{valortotal}}" disabled="disabled">
+  </p>
+  <p style="margin-top: 150px;">
+    Valor Pago:
+    <input type="number" class="" value="{{valorpago}}" disabled="disabled">
+  </p>
+  <p style="margin-top: 150px;">
+    Valor Restante:
+    <input type="number" class="" value="{{valorrestante}}" disabled="disabled">
+  </p>
+  <p>
+    <a class="edit" data-toggle="modal" data-target="#exampleModal"
+    onclick="setaDadosModal('{{idvenda}}','{{valortotal}}')"><button type="button"
+        class="btn btn-success">Pagar</button></a>
+    <a href="/fechar_venda/{{idvenda}}"><button type="button"
+            class="btn btn-danger" disabled="disabled">Fechar Venda</button></a>
+  </p>
+</div>
+
+<div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Lançar Pagamento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="addVlPagamento" action="" method="POST">
+                        <div>
+                          <div class="form-group col-md-7">
+                            <label for="id_tipo_pgto">Tipo do Pagamento:</label>
+                            <select class="form-control" aria-label="Default select example" id="id_tipo_pgto">
+                              {% for t in lstTipoPagamento %}
+                              <option value="{{t.id}}">{{t.tipo_pagamento}}</option>
+                              {% endfor %}  
+                            </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="valor_pagamento">Valor a Pagar</label>
+                                <input type="text" class="form-control" id="valor_pagamento" name="valor_pagamento">
+                            </div>  
+<br>
+<input type="hidden" id="idVenda" name="idVenda">
+<input type="hidden" id="valorTotal" name="valorTotal">
+
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                              Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-dark">Salvar</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+    <script>
+      function setaDadosModal(valor,valor2) {
+          $('#modalExemplo').modal('show');
+          document.getElementById('idVenda').value = valor;          
+          document.getElementById('valorTotal').value = valor2;
+      }
+      $(".edit").click(function () {
+          route = "/edit_produto_venda/";
+          $.get(route, function (retorno) {
+              $('#addVlPagamento').attr('action', route);
+          });
+      });
+      // Criar metodo para habilitar botão de fechar venda e desabilitar o botão pagar ao zerar o valor
+      // Criar metodo para validar se o valor faltante não é maior do que o pretendido a pagar
+  </script>
+{% endblock main %}
