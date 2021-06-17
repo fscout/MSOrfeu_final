@@ -12,7 +12,7 @@
 <script src="../static/js/jquery.js"></script>
 <script src="../static/bootstrap/js/bootstrap.popper.min.js"></script>
 <script src="../static/bootstrap/js/bootstrap.min.js"></script>
-<div class="container" align="center">
+<div class="container" align="center" name="conteudo" id="conteudo">
   <p style="margin-top: 150px;">
     Total:
     <input type="number" class="" value="{{valortotal}}" disabled="disabled">
@@ -23,13 +23,13 @@
   </p>
   <p style="margin-top: 150px;">
     Valor Restante:
-    <input type="number" class="" value="{{valorrestante}}" disabled="disabled">
+    <input type="number" id="inpValorRestante" name="inpValorRestante" class="" value="{{valorrestante}}" disabled="disabled">
   </p>
   <p>
     <a class="edit" data-toggle="modal" data-target="#exampleModal"
-    onclick="setaDadosModal('{{idvenda}}','{{valortotal}}')"><button type="button"
+    onclick="setaDadosModal('{{idvenda}}','{{valortotal}}')"><button type="button" id="btnPagar" name="btnPagar"
         class="btn btn-success">Pagar</button></a>
-    <a href="/fechar_venda/{{idvenda}}"><button type="button"
+    <a href="/finalizar_venda/{{idvenda}}"><button type="button" id="btnFecharVenda" name="btnFecharVenda"
             class="btn btn-danger" disabled="disabled">Fechar Venda</button></a>
   </p>
 </div>
@@ -52,6 +52,7 @@
                           <div class="form-group col-md-7">
                             <label for="id_tipo_pgto">Tipo do Pagamento:</label>
                             <select class="form-control" aria-label="Default select example" id="id_tipo_pgto">
+                              <option selected>Escolha o Tipo de Pagamento</option>
                               {% for t in lstTipoPagamento %}
                               <option value="{{t.id}}">{{t.tipo_pagamento}}</option>
                               {% endfor %}  
@@ -64,11 +65,12 @@
 <br>
 <input type="hidden" id="idVenda" name="idVenda">
 <input type="hidden" id="valorTotal" name="valorTotal">
+<input type="hidden" id="id_tipo_pgto_id" name="id_tipo_pgto_id">
 
                             <button type="button" class="btn btn-danger" data-dismiss="modal">
                               Cancelar
                             </button>
-                            <button type="submit" class="btn btn-dark">Salvar</button>
+                            <button type="submit" id="btnSalvar" class="btn btn-dark">Salvar</button>
                     </form>
                 </div>
             </div>
@@ -78,18 +80,25 @@
         </div>
     </div>
     <script>
+      $(window).on('load', function() {
+        if($("#inpValorRestante").val() == 0) { 
+          $("#btnPagar").attr("disabled", "disabled");
+          $("#btnFecharVenda").removeAttr("disabled");          
+        }
+      });
       function setaDadosModal(valor,valor2) {
           $('#modalExemplo').modal('show');
           document.getElementById('idVenda').value = valor;          
           document.getElementById('valorTotal').value = valor2;
       }
-      $(".edit").click(function () {
-          route = "/edit_produto_venda/";
-          $.get(route, function (retorno) {
-              $('#addVlPagamento').attr('action', route);
-          });
-      });
-      // Criar metodo para habilitar botão de fechar venda e desabilitar o botão pagar ao zerar o valor
+      $("#btnPagar").click(function () {
+        route = "/add_valor_pagamento";
+        $('#addVlPagamento').attr('action', route);
+        $('#id_tipo_pgto').on('change', function () {
+          document.getElementById('id_tipo_pgto_id').value = this.value
+        });
+      });     
       // Criar metodo para validar se o valor faltante não é maior do que o pretendido a pagar
+
   </script>
 {% endblock main %}

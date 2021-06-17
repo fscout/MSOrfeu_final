@@ -817,20 +817,22 @@ def alterar_status_venda(id_venda, cod_status):
 #DEF para add valor no DetalhesPagamento (Salvar)
 @app.route("/add_valor_pagamento", methods=['GET', 'POST'])
 @login_required
-def add_valor_detalhespgto(idVenda, id_tipo_pgto, valor_pagamento, valorTotal):
-    detalhepgto = DetalhesPagamento(valor_pagamento, id_tipo_pgto, idVenda)
+def add_valor_detalhespgto():
+    detalhepgto = DetalhesPagamento(request.form['valor_pagamento'].replace(',','.'), request.form['id_tipo_pgto_id'], request.form['idVenda'])
     db.session.add(detalhepgto)
     db.session.commit()
+    idVenda = request.form['idVenda']
+    valorTotal = request.form['valorTotal']
     return consultar_valor_detalhespgto(idVenda, valorTotal)
 
 
 #DEF para consultar o valor que já foi add no DetalhesPagamento (Valor pago e restante)
 def consultar_valor_detalhespgto(id_venda, valortotal):
-    valorespagos = DetalhesPagamento.query.get(id_venda)
+    valorespagos = list(DetalhesPagamento.query.filter_by(id_venda_id = id_venda))
     valorpagototal = 0
     for v in valorespagos:
-        valorpagototal += v.valor
-    valorrestante = valortotal - valorpagototal
+        valorpagototal += float(v.valor)
+    valorrestante = float(valortotal) - valorpagototal
     return renderiza_pagamento(id_venda, valortotal, valorpagototal, valorrestante)
 
 
@@ -842,11 +844,11 @@ def renderiza_pagamento(id_venda, valortotal, valorpago, valorrestante):
 
 #DEF finalizar a venda com o pagamento (tela de pgto)
     #> Chamar DEF alterar_status_venda e passar o cod_status_venda de finalizado(300)
-@app.route("/finalizar_venda", methods=['GET', 'POST'])
+@app.route("/finalizar_venda/<int:idVenda>", methods=['GET', 'POST'])
 @login_required
-def finalizar_venda(Id_Venda):
-    alterar_status_venda(Id_Venda, 300)
-    return render_template("vendas.html")
+def finalizar_venda(idVenda):
+    alterar_status_venda(idVenda, 300)
+    return redirect('/listar_vendas')
 
 #Fazer HTML vendas.html(igual o de produtos_cadastrados) e o pagamento.html(vide garrancho no caderno kkkkk)
 
@@ -860,6 +862,17 @@ def vendas_cadastrados():
     return render_template("vendas.html", vendas=vendas)
 
 #DEF exibir dados da venda (modal) - Botão Detalhes Venda
+@app.route("/detalhes_venda/<int:id_venda>", methods=['GET', 'POST'])
+@login_required
+def detalhes_venda(id_venda):
+    produtos_venda = list(DetalhesVenda.query.filter_by(id_venda_id = id_venda))
+    # Ordena a lista de produtos do último inserido na lista
+    produtos_venda = sorted(produtos_venda, key=lambda x: x.numero_item, reverse=False)
+    vltotal = 0
+    for p in produtos_venda:
+        vltotal += p.valor_total  
+    return produtos_venda
+
 
 # print("# ********************** TESTES ADD PRODUTO NA VENDA ********************** #")
 # quantidade_prod = 1
