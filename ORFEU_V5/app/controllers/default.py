@@ -796,6 +796,9 @@ def deletar_produto_venda(id):
 @app.route("/fechar_venda/<int:id_venda>,<float:vltotal>", methods=['GET', 'POST'])
 @login_required
 def fechar_venda(id_venda, vltotal):
+    venda = Venda.query.get(id_venda)
+    venda.valor_total = vltotal
+    db.session.commit()
     alterar_status_venda(id_venda, 200)
     return renderiza_pagamento(id_venda, vltotal, 0, vltotal)
 
