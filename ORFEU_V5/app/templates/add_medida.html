@@ -31,7 +31,7 @@
           <form action="/add_medida" method="POST">
             <div class="form-group col-md-4">
               <label class="fill2" for="nome_medida">Medida:</label>
-              <input type="text" class="form-control convertePMaiuscula" id="nome_medida" name="nome_medida" required onchange="converteParaMaiuscula()" maxlength="30">
+              <input type="text" style="text-transform:uppercase" class="form-control convertePMaiuscula" id="nome_medida" name="nome_medida" required onchange="converteParaMaiuscula()" maxlength="30">
             </div>
             <button type="submit" class="btn btn-primary" onclick="pega_valor()">Adicionar Medida</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -147,10 +147,10 @@ aria-hidden="true">
 
         <div class="form-group col-md-7">
           <label for="id_medida">Medidas:</label>
-          <input type="text" id="nome_medida" name="nome_medida">
+          <input type="text" style="text-transform:uppercase" id="nome_medida" name="nome_medida">
         </div>
 
-        <input type="hidden" id="idMedida" name="idMedida">
+        <input type="hidden" style="text-transform:uppercase" id="idMedida" name="idMedida">
 
           <a href="/medidas_cadastradas"><button type="button" class="btn btn-danger">Cancelar</button></a>
           <button type="submit" class="btn btn-dark">Alterar Medida</button>

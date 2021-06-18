@@ -29,7 +29,7 @@
           <form action="/add_marca" method="POST">
             <div class="form-group col-md-4">
               <label class="fill2" for="nome_marca">Marca:</label>
-              <input type="text" class="form-control convertePMaiuscula" id="nome_marca" name="nome_marca" required onchange="converteParaMaiuscula()" maxlength="30">
+              <input type="text" style="text-transform:uppercase" class="form-control convertePMaiuscula" id="nome_marca" name="nome_marca" required onchange="converteParaMaiuscula()" maxlength="30">
             </div>
             <button type="submit" class="btn btn-primary" onclick="pega_valor()">Adicionar Marca</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -145,10 +145,10 @@ aria-hidden="true">
 
         <div class="form-group col-md-7">
           <label for="id_marca">Marcas:</label>
-          <input type="text" id="nome_marca" name="nome_marca">
+          <input style="text-transform:uppercase" type="text" id="nome_marca" name="nome_marca">
         </div>
 
-        <input type="hidden" id="idMarca" name="idMarca">
+        <input style="text-transform:uppercase" type="hidden" id="idMarca" name="idMarca">
 
           <a href="/marcas_cadastradas"><button type="button" class="btn btn-danger">Cancelar</button></a>
           <button type="submit" class="btn btn-dark">Alterar Marca</button>
