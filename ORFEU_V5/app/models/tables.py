@@ -348,6 +348,11 @@ class Categoria(db.Model):
     def __repr__(self):
         return "<Categoria %r>" % self.id
 
+    def serialized(self):
+        return {
+            'nome_categoria': self.nome_categoria,
+        }
+
 
 class Marca(db.Model):
     __tablename__ = "marca"
@@ -360,6 +365,11 @@ class Marca(db.Model):
     def __repr__(self):
         return "<Marca %r>" % self.id
 
+    def serialized(self):
+        return {
+            'nome_marca': self.nome_marca,
+        }
+
 
 class Medida(db.Model):
     __tablename__ = "medida"
@@ -371,6 +381,11 @@ class Medida(db.Model):
 
     def __repr__(self):
         return "<Medida %r>" % self.id
+
+    def serialized(self):
+        return {
+            'nome_medida': self.nome_medida,
+        }
 
 
 class Produto(db.Model):

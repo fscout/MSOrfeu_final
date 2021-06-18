@@ -90,10 +90,6 @@ function converteParaMaiuscula() {
     }
 }
 
-
-
-
-
 function envia_dados() {
     $.ajax({
         url: '/signUpUser',

@@ -15,12 +15,10 @@
 
 <div class="container" align="center">
 
-  <h1 align="center" class="fill2">Cadastrar Categoria</h1>
-
-  <!-- Button trigger modal -->
+  <!-- Button trigger modal>
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categorias">
     Adicionar Categoria
-  </button>
+  </button-->
 
   <!-- Modal Categoria -->
   <div class="modal fade" id="categorias" tabindex="-1" role="dialog" aria-labelledby="categoriasLabel"
@@ -74,7 +72,7 @@
 <p></p>
 
 
-  <div class="form-group col-md-4">
+  <!--div class="form-group col-md-4">
     <label class="fill2" for="id_categoria">Categorias:</label>
     <select class="form-select" aria-label="Default select example" id="id_categ_select_t" onchange="add_categoria()">
       <option selected>Categorias Cadastradas</option>
@@ -82,7 +80,7 @@
         <option value="{{c.id}}">{{c.nome_categoria}}</option>
         {% endfor %}
     </select>
-  </div>
+  </div-->
 
 
 
@@ -115,8 +113,111 @@
 
 
 
+<div class="container" align="center">
+  <h1 align="center" class="fill2">Categorias Cadastradas</h1>
+  <table border="1" width="70%" class="table table-striped">
+    <thead>
+      <tr>
+        <th class="fill2">Categorias</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in categorias %}
+      <tr> 
+        <td>{{c.nome_categoria}}</td>
+        <td>
+          <a class="edit" data-toggle="modal" data-target="#modalExemplo" onclick="setaDadosModal('{{c.id}}')">
+            <img src="{{url_for('static', filename='images/editar.png')}}">
+          </a>
+        </td>
+        <!-- <td>
+          <a class="delet" href="/deletar_categoria/{{c.id}}">
+            <img src="{{url_for('static', filename='images/remover.png')}}">
+          </a>
+        </td> -->
 
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categorias">
+    Adicionar Categoria
+  </button>
 
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      
+      {% if message %}
+        <p id="categoria_ja_existe" class="hider">{{message}}</p>
+        <script>
+          categoria_ja_existe = document.getElementById('categoria_ja_existe')
+          alert(categoria_ja_existe.innerText)
+        </script>
+      {% endif %}
+    {% endfor %} 
+    </ul>
+  {% endif %}
+{% endwith %}
+
+</div>
+
+<div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+
+  <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Editar Categoria</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+      <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <form id="EditCategories" action="" method="POST">
+
+        <div class="form-group col-md-7">
+          <label for="nome_categoria">Categorias:</label>
+          <input type="text" id="nome_categoria" name="nome_categoria">
+        </div>
+
+        <input type="hidden" id="idCategoria" name="idCategoria">
+
+          <a href="/listar_categorias"><button type="button" class="btn btn-danger">Cancelar</button></a>
+          <button type="submit" class="btn btn-dark">Alterar Categoria</button>
+      </form>
+  </div>
+  </div>
+  <div class="modal-footer">
+
+  </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+function setaDadosModal(valor) {
+  document.getElementById('idCategoria').value = valor;
+}
+$(".edit").click(function () {
+  route = "/edit_categoria/" + document.getElementById('idCategoria').value;
+  $.get(route, function (retorno) {
+    var obj = JSON.parse(retorno);
+    document.getElementById('nome_categoria').value = obj.nome_categoria
+    $('#EditCategories').attr('action', route);
+  });
+});
+</script>
+  <!-- <div class="form-group col-md-4">
+      <label class="fill2" for="categoria">Categorias:</label>
+        <select name="" id="">
+          {% for c in categorias %}
+          <option value="">{{c.categoria_produto}}</option>
+          {% endfor %}
+      </select>
+    </div> -->
 
 {% endblock main %}

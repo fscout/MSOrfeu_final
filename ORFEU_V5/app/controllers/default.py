@@ -588,12 +588,12 @@ def add_categoria():
         categorias = Categoria.query.all()
         for c in categorias:
             if c.nome_categoria == request.form['nome_categoria']:
-                print("Categoria já existe!")
+                flash("Categoria já existe!!!")
                 return redirect(url_for('listar_categorias'))
         categoria = Categoria(request.form['nome_categoria'])
         db.session.add(categoria)
         db.session.commit()
-        print("Categoria Cadastrada!")
+        flash("Categoria Cadastrada!!!")
         return redirect(url_for('listar_categorias'))
 
 
@@ -602,18 +602,27 @@ def add_categoria():
 def edit_categoria(id):
     categoria = Categoria.query.get(id)
     if request.method == 'POST':
-        categorias = Usuario.query.all()
+        categorias = Categoria.query.all()
         for c in categorias:
             if c.id != categoria.id:
                 if c.nome_categoria == request.form['nome_categoria']:
-                    # print('Essa Categoria já foi cadastrada')
-                    return redirect(url_for('listar_categorias'))
+                    flash("Categoria já existe!!!")
+                    return categorias_cadastradas()
         categoria.nome_categoria = request.form['nome_categoria']
-        # print('Categoria cadastrada com sucesso')
         db.session.commit()
-        return listar_categorias()
-    return listar_categorias()
+        flash("Categoria Alterada!!!")
+        return categorias_cadastradas()
+    if categoria:
+        return json.dumps(categoria.serialized())
+    print('Não existe essa categoria método GET!!!')
+    return categorias_cadastradas()
 
+@app.route("/categorias_cadastradas")
+@login_required
+def categorias_cadastradas():
+    categorias = Categoria.query.all()
+    return render_template("categorias_cadastradas.html",
+                           categorias=categorias)
 
 @app.route("/delete_categoria/<int:id>")
 @login_required
@@ -638,31 +647,40 @@ def add_marca():
         marcas = Marca.query.all()
         for m in marcas:
             if m.nome_marca == request.form['nome_marca']:
-                return redirect(url_for('produtos_cadastrados'))
+                flash("Marca já existe!!!")
+                return redirect(url_for('listar_marcas'))
         marca = Marca(request.form['nome_marca'])
         db.session.add(marca)
         db.session.commit()
+        flash("Marca Cadastrada!!!")
         return redirect(url_for('listar_marcas'))
     return redirect(url_for('listar_marcas'))
-
 
 @app.route("/edit_marca/<int:id>", methods=['GET', 'POST'])
 @login_required
 def edit_marca(id):
     marca = Marca.query.get(id)
     if request.method == 'POST':
-        marcas = Usuario.query.all()
+        marcas = Marca.query.all()
         for m in marcas:
             if m.id != marca.id:
                 if m.nome_marca == request.form['nome_marca']:
-                    # print('Essa Categoria já foi cadastrada')
-                    return redirect(url_for('listar_marca'))
+                    flash("Marca já existe!!!")
+                    return redirect(url_for('listar_marcas'))
         marca.nome_marca = request.form['nome_marca']
-        # print('Categoria cadastrada com sucesso')
         db.session.commit()
-        return listar_marcas()
-    return listar_marcas()
+        flash("Marca Alterada!!!")
+        return marcas_cadastradas()
+    if marca:
+        return json.dumps(marca.serialized())
+    print('Não existe essa marca método GET!!!')
+    return redirect(url_for('produtos_cadastrados'))
 
+@app.route("/marcas_cadastradas")
+@login_required
+def marcas_cadastradas():
+    marcas = Marca.query.all()
+    return render_template("add_marca.html", marcas=marcas)
 
 @app.route("/delete_marca/<int:id>")
 @login_required
@@ -687,10 +705,12 @@ def add_medida():
         medidas = Medida.query.all()
         for m in medidas:
             if m.nome_medida == request.form['nome_medida']:
-                return redirect(url_for('produtos_cadastrados'))
+                flash("Medida já existe!!!")
+                return redirect(url_for('listar_medidas'))
         medida = Medida(request.form['nome_medida'])
         db.session.add(medida)
         db.session.commit()
+        flash("Medida Cadastrada!!!")
         return redirect(url_for('listar_medidas'))
     return redirect(url_for('listar_medidas'))
 
@@ -700,18 +720,26 @@ def add_medida():
 def edit_medida(id):
     medida = Medida.query.get(id)
     if request.method == 'POST':
-        medidas = Usuario.query.all()
+        medidas = Medida.query.all()
         for m in medidas:
             if m.id != medida.id:
                 if m.nome_medida == request.form['nome_medida']:
-                    # print('Essa Categoria já foi cadastrada')
+                    flash("Medida já existe!!!")
                     return redirect(url_for('listar_medidas'))
         medida.nome_medida = request.form['nome_medida']
-        # print('Categoria cadastrada com sucesso')
         db.session.commit()
-        return listar_medidas()
-    return listar_medidas()
+        flash("Medida Alterada!!!")
+        return medidas_cadastradas()
+    if medida:
+        return json.dumps(medida.serialized())
+    print('Não existe essa medida método GET!!!')
+    return redirect(url_for('produtos_cadastrados'))
 
+@app.route("/medidas_cadastradas")
+@login_required
+def medidas_cadastradas():
+    medidas = Medida.query.all()
+    return render_template("add_medida.html", medidas=medidas)
 
 @app.route("/delete_medida/<int:id>")
 @login_required
