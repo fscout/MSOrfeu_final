@@ -86,6 +86,15 @@ class Usuario(db.Model, UserMixin):
         # True = Inativo - False = Ativo.
         self.inativado = False
 
+    def serialized(self):
+        return {
+            'nome': self.nome,
+            'id_nivel_acesso_id': self.id_nivel_acesso_id,
+            'telefone': self.telefone,
+            'email': self.email,
+            'login': self.login,
+        }
+
     '''O método abaixo serve para criptografar a senha do usuário, fazendo com que
     os dados dele estejam mais seguros'''
 
@@ -220,13 +229,13 @@ class Cliente(db.Model):
 
     now = datetime.datetime.now()
 
-    def __init__(self, nome, telefone, data_pagamento, cpf=None,
+    def __init__(self, nome, telefone, data_pagamento, valor_divida, cpf=None,
                  observacao=None):
         self.nome = nome
         self.telefone = telefone
         self.data_pagamento = data_pagamento
         self.data_ultima_compra = None
-        self.valor_divida = 0
+        self.valor_divida = valor_divida
         self.status = True  # True = Pode comprar fiado - False = Não pode.
         self.cpf = cpf
         self.observacao = observacao

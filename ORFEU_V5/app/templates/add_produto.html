@@ -45,11 +45,11 @@
     </div>
     <div class="form-group col-md-4">
       <label class="fill2" for="peso_liquido">Peso Liquido:</label>
-      <input type="text" class="form-control" id="peso_liquido" name="peso_liquido">
+      <input type="text" class="form-control" id="peso_liquido" name="peso_liquido" required>
     </div>
     <div class="form-group col-md-4">
       <label class="fill2" for="peso_bruto">Peso Bruto:</label>
-      <input type="text" class="form-control" id="peso_bruto" name="peso_bruto">
+      <input type="text" class="form-control" id="peso_bruto" name="peso_bruto" required>
     </div>
 
     <!--implementar código para converter . para , e só então mandar para o back-->
@@ -75,7 +75,7 @@
         {% endfor %}
       </select>
       <!--Definiremos um valor default para categoria, ou seja, caso o usuário não selecione nenhuma categoria cadastraremos uma categoria padrão-->
-      <input type="number" class="form-control id_categoria" id="id_categoria" name="id_categoria" value=1 hidden>
+      <input type="number" class="form-control id_categoria" id="id_categoria" name="id_categoria" value=1 hidden required>
 
       <!-- Button trigger modal -->
       <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categorias">
@@ -93,7 +93,7 @@
       </select>
 
       <!--Definiremos um valor default para categoria, ou seja, caso o usuário não selecione nenhuma categoria cadastraremos uma categoria padrão-->
-      <input type="number" class="form-control id_marca" id="id_marca" name="id_marca" value=1 hidden>
+      <input type="number" class="form-control id_marca" id="id_marca" name="id_marca" value=1 hidden required>
 
       <!-- Button trigger modal -->
       <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#marcas">
@@ -112,7 +112,7 @@
       </select>
 
       <!--Definiremos um valor default para categoria, ou seja, caso o usuário não selecione nenhuma categoria cadastraremos uma categoria padrão-->
-      <input type="number" class="form-control id_medida" id="id_medida" name="id_medida" value=1 hidden>
+      <input type="number" class="form-control id_medida" id="id_medida" name="id_medida" value=1 hidden required>
 
       <!-- Button trigger modal -->
       <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#medidas">

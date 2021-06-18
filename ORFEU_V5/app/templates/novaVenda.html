@@ -1,73 +1,23 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+    {% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Vendas</title>
-    <link rel="shortcut icon" href="../static/img/logoBessa.png">
-    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/base.css">
-    <script src="../static/js/jquery.js"></script>
-    <script src="../static/bootstrap/js/bootstrap.popper.min.js"></script>
-    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
-</head>
 
-<body>
+    {% block title %}
+        {{ super() }} - Usuários Cadastrados
+    {% endblock title %}
+    
+    
+    {% block main %}
     <div class="container-modal">
         <div class="row">
-            <div class="">
-                <img src="../static/img/logoBessa.png" class="logobessa">
-                <img src="../static/img/login.png" class="login">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle btn-vendas" type="button" id="dropdownMenu2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Caixa
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <li><button class="dropdown-item" type="button">Abertura</button></li>
-                        <li><button class="dropdown-item" type="button">Fechamento</button></li>
-                    </ul>
-                    <button class="btn btn-secondary dropdown-toggle btn-vendas" type="button" id="dropdownMenu2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Vendas
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <li><button class="dropdown-item" type="button">Nova Venda</button></li>
-                        <li><button class="dropdown-item" type="button">Vendas Anteriores</button></li>
-                    </ul>
-                    <button class="btn btn-secondary dropdown-toggle btn-produtos" type="button" id="dropdownMenu2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Produtos
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <li><button class="dropdown-item" type="button">Cadastrar Produto</button></li>
-                        <li><button class="dropdown-item" type="button">Estoque</button></li>
-                    </ul>
-                    <button class="btn btn-secondary dropdown-toggle btn-usuarios" type="button" id="dropdownMenu2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Usuários
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <li><button class="dropdown-item" type="button">Cadastrar Usuário</button></li>
-                        <li><button class="dropdown-item" type="button">Usuários Cadastrados</button></li>
-                    </ul>
-                    <button class="btn btn-secondary dropdown-toggle btn-clientes" type="button" id="dropdownMenu2"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Clientes
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <li><button class="dropdown-item" type="button">Cadastrar Clientes</button></li>
-                        <li><button class="dropdown-item" type="button">Clientes Cadastrados</button></li>
-                    </ul>
-                </div>
+            <div class="">                
                 <div class="div-conteudo">
                     <div class="inputValores">
                         <form action="/add_prod_venda" method="POST">
                             <p>Quantidade <br>
-                                <input type="text" class="campotexto" id="quantidade_prod" name="quantidade_prod">
+                                <input type="text" class="campotexto" id="quantidade_prod" name="quantidade_prod" required>
                             </p>
                             <p>Cod. de Barras <br>
-                                <input type="text" class="campotexto" id="cod_barras" name="cod_barras">
+                                <input type="text" class="campotexto" id="cod_barras" name="cod_barras" required>
                                 <input type="hidden" id="id_venda" name="id_venda" value={{venda}}>
                             </p>
                             <p>
@@ -234,6 +184,4 @@
             $.get("/receivedata", {"myData": myData});
         });
     </script>
-</body>
-
-</html>
+{% endblock main %}

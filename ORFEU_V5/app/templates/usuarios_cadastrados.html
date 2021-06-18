@@ -9,57 +9,48 @@
 {% block main %}
 
 
-
-<div class="container" align="center">
-    <h1 align="center" class="fill2" >Usuários Cadastrados</h1>
-    <table border="1" width="70%" class="table table-striped">
+<h1 class="fill2" style="text-align: center;" id="table-h1">Usuários Cadastrados</h1>
+<div class="container" id="table-usuariaCad">
+    <table border="1"  class="table table-striped">
         <thead>
             <tr>
                 <th class="fill2">NOME</th>
                 <th class="fill2">TELEFONE</th>
                 <th class="fill2">EMAIL</th>
                 <th class="fill2">LOGIN</th>
-                <!-- <th class="fill2">SENHA</th> -->
-                <th class="fill2">STATUS</th>
                 <th class="fill2">ID_NIVEL_ACESSO_ID</th>
                 <th class="fill2">ATIVO/INATIVO</th>
             </tr>
         </thead>
         <tbody>
-            <!-- u = usuario -->
             {% for u in usuarios %}
             <tr>
                 <td>{{u.nome}}</td>
-                <td>{{u.exibir_nivel_acesso()}}</td>
                 <td>{{u.telefone}}</td>
                 <td >{{u.email}}</td>
                 <td>{{u.login}}</td>
-                <!-- <td>{{u.senha}}</td> -->
-                <td>{{u.verificar_status()}}</td>
+                <td>{{u.exibir_nivel_acesso()}}</td>
                 <td>{{u.verificar_inativado()}}</td>
+                
                 <td>
-                    <a href="/edit_usuario/{{u.id}}"> <img src="{{url_for('static', filename='images/editar.png')}}"></a>
-                    <a href="/deletar_usuario/{{u.id}}"> <img src="{{url_for('static', filename='images/remover.png')}}"></a>
-                    
-                    {% if u.verificar_status() == 'BLOQUEADO' %}
-                        <a href="/desbloquear_usuario/{{u.id}}"><button>DESBLOQUEAR</button></a>
-                        {% else %}
-                        <a href="/bloquear_usuario/{{u.id}}"><button>BLOQUEAR</button></a>
-                    {% endif %}
-                    <p></p>
-                    
+                  <a class="edit" data-toggle="modal" data-target="#modalExemplo" onclick="setaDadosModal('{{u.id}}')">
+                    <img src="{{url_for('static', filename='images/editar.png')}}">
+                  </a>
+                </td>
+                 
+                <td>
                     {% if u.verificar_inativado() == 'INATIVO' %}
                         <a href="/ativar_usuario/{{u.id}}"><button>ATIVAR USUÁRIO</button></a>
                         {% else %}
                         <a href="/inativar_usuario/{{u.id}}"><button>INATIVAR USUÁRIO</button></a>
                     {% endif %}
-
-                    <p></p>
-                    <a href="/resetar_usuario/{{u.id}}"><button>Resetar Senha</button></a>
                 </td>
 
-            </tr>
-            {% endfor %}
+                <td>
+                    <a href="/resetar_usuario/{{u.id}}"><button>RESETAR SENHA</button></a>
+                </td>
+          </tr>
+          {% endfor %}
         </tbody>
     </table>
 
@@ -79,85 +70,97 @@
 
 </div>
 
-    <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+<div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
 
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Editar Usuário</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form id="EditUsers" action="" method="POST">
-            <div>
-                <div class="col-md-4">
-                <label for="nome">Nome</label>
-                <input type="text" class="form-control" id="nome" name="nome">
-                </div>
-
-            <div class="form-group col-md-7">
-                <label for="id_nivel_acesso">Nível de Acesso:</label>
-                <select class="form-control" aria-label="Default select example" id="id_nivel_acesso_select">
-                    {% for u in usuarios %}
-                    <option value="{{u.id}}">{{u.exibir_nivel_acesso}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-                <div class="col-md-4">
-                <label for="telefone">Telefone</label>
-                <input type="text" class="form-control" id="telefone" name="telefone">
-                </div>
-
-                <div class="col-md-4">
-                <label for="email">E-mail</label>
-                <input type="email" class="form-control" id="email" name="email">
-                </div>
-
-                <div class="col-md-4">
-                <label for="login">Login</label>
-                <input type="text" class="form-control" id="login" name="login">
-                </div>
-                <input type="hidde" id="idUsuario"
-                name="id_nivel_acesso_id">
-                <input type="hidden" id="id_nivel_acesso_id" name="id_nivel_acesso_id">
-
-                <a href="/usuarios_cadastrados"><button type="button" class="btn btn-danger">Cancelar</button></a>
-                <button type="submit" class="btn btn-dark">Alterar Cliente</button>
-            </form>
-        </div>
-        </div>
-        <div class="modal-footer">
-
-        </div>
-
-        </div>
-      </div>
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Editar Usuário</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
 
+
+
+    <div class="modal-body">
+      <form id="EditUsers" action="" method="POST">
+        <div>
+          <div class="col-md-4">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome">
+          </div>
+
+          <div class="form-group col-md-7">
+            <label for="id_nivel_acesso">Nível de Acesso:</label>
+
+            <select class="form-control" aria-label="Default select example" id="id_nivel_acesso_select">
+              {% for n in niveis %}
+              <option value="{{n.id}}">{{n.nivel_acesso}}</option>
+              {% endfor %}
+            </select>
+            <!-- <select class="form-control" aria-label="Default select example" id="id_nivel_acesso_select">
+              {% for u in usuarios %}
+              <option value="{{u.id}}">{{u.exibir_nivel_acesso()}}</option>
+              {% endfor %}
+            </select> -->
+
+          </div>
+
+          <div class="col-md-4">
+            <label for="telefone">Telefone</label>
+            <input type="text" class="form-control" id="telefone" name="telefone">
+          </div>
+
+          <div class="col-md-4">
+            <label for="email">E-mail</label>
+            <input type="email" class="form-control" id="email" name="email">
+          </div>
+
+          <div class="col-md-4">
+            <label for="login">Login</label>
+            <input type="text" class="form-control" id="login" name="login">
+          </div>
+          <input type="hidden" id="idUsuario" name="idUsuario">
+
+          <input type="hidden" id="id_nivel_acesso_id" name="id_nivel_acesso_id">
+
+          <a href="/usuarios_cadastrados"><button type="button" class="btn btn-danger">Cancelar</button></a>
+
+          <button type="submit" class="btn btn-dark">Alterar Usuário</button>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+
+  </div>
+
+</div>
+</div>
+</div>
+
     <script>
-        function setaDadosModal(valor) {
-          document.getElementById('idUsuario').value = valor;
-        }
-        $(".edit").click(function () {
-          route = "/edit_usuario/" + document.getElementById('idUsuario').value;
-          $.get(route, function (retorno) {
-            var obj = JSON.parse(retorno);
-            document.getElementById('nome').value = obj.nome;
-            $('#id_nivel_acesso_select').val(obj.id_nivel_acesso_id);
-            document.getElementById('id_nivel_acesso_id').value = obj.id_nv_acesso_id
-            document.getElementById('telefone').value = obj.telefone;
-            document.getElementById('email').value = obj.email;
-            document.getElementById('login').value = obj.login;
-            $('#EditUsers').attr('action', route);
-          });
-          $('#id_nivel_acesso_select').on('change', function () {
-            document.getElementById('id_nivel_acesso_id').value = this.value
-          });
+      function setaDadosModal(valor) {
+        document.getElementById('idUsuario').value = valor;
+      }
+    
+      $(".edit").click(function () {
+        route = "/edit_usuario/" + document.getElementById('idUsuario').value;
+        $.get(route, function (retorno) {
+          var obj = JSON.parse(retorno);
+          document.getElementById('nome').value = obj.nome;
+          $('#id_nivel_acesso_select').val(obj.id_nivel_acesso_id);
+          document.getElementById('id_nivel_acesso_id').value = obj.id_nivel_acesso_id
+          document.getElementById('telefone').value = obj.telefone;
+          document.getElementById('email').value = obj.email;
+          document.getElementById('login').value = obj.login;
+          $('#EditUsers').attr('action', route);
         });
-      </script>
+        $('#id_nivel_acesso_select').on('change', function () {
+          document.getElementById('id_nivel_acesso_id').value = this.value
+        });
+      });
+    </script>
 
 {% endblock main %} 

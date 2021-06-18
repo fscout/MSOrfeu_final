@@ -8,7 +8,6 @@
 
 {% block main %}
 
-<link rel="stylesheet" href="{{url_for('static', filename='css/produtos_cadastrados.css')}}">
 <!-- <p class="ocultar nivel">{{current_user.nivel_acesso}}</p>
 
 
@@ -24,8 +23,8 @@
         <th class="fill2">Data da Venda</th>
         <th class="fill2">Valor Total</th>
         <th class="fill2">Usuario</th>
-        <th class="fill2">Cliente</th>
-        <th class="fill2">Status</th>
+        <!--th class="fill2">Cliente</th-->
+        <!--th class="fill2">Status</th-->
       </tr>
     </thead>
     <tbody>
@@ -35,12 +34,13 @@
         <td>{{v.data_venda}}</td>
         <td>{{v.valor_total}}</td>
         <td>{{v.id_usuario_id}}</td>
-        <td>{{v.id_cliente_id}}</td>
-        <td>{{v.cod_status_venda}}</td>
+        <!--td>{{v.id_cliente_id}}</td-->
+        <!--td>{{v.cod_status_venda}}</td-->
       </tr>
       {% endfor %}
     </tbody>
   </table>
+</div>
 <!-- 
 <script src="{{ url_for('static', filename='js/verifica_acesso.js')}}"></script> -->
 {% endblock main %}

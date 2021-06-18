@@ -42,8 +42,12 @@
               <div class="form-group col-md-4">
                 <label for="data_pagamento">DATA PAGAMENTO</label>
                 <input type="text" class="form-control" id="data_pagamento" name="data_pagamento" value="{{cliente.data_pagamento}}" disabled>
-                <p></p>
                 <input type="date" class="form-control" id="data_pagamento" name="data_pagamento">
+              </div>
+
+              <div class="form-group col-md-4">
+                <label class="fill2" for="valor_divida">DÉBITO:</label>
+                <input type="number" class="form-control" id="valor_divida" name="valor_divida" min="0" max="10000000" step="0.01" required>
               </div>
 
               <div class="form-group col-md-4">
@@ -63,7 +67,6 @@
 
           </form>
 
-<!-- 
-            <script src="{{ url_for('static', filename='js/verifica_acesso.js')}}"></script> -->
-          </div>
+
+</div>
 {% endblock main %} 

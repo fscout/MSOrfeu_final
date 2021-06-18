@@ -89,9 +89,9 @@ def logout():
 @login_required
 def usuarios_cadastrados():
     usuarios = Usuario.query.all()
-    # for u in usuarios:
-    #     print(u.nome)
-    return render_template("usuarios_cadastrados.html", usuarios=usuarios)
+    niveis = NivelAcesso.query.all()
+    return render_template("usuarios_cadastrados.html", usuarios=usuarios,
+                           niveis=niveis)
 
 
 @app.route("/add_usuario", methods=['GET', 'POST'])
@@ -110,7 +110,8 @@ def add_usuario():
         usuario = Usuario(request.form['nome'], request.form['telefone'],
                           request.form['email'],
                           request.form['login'],
-                          request.form['senha'], request.form['id_nivel_acesso_id'])
+                          request.form['senha'], 
+                          request.form['id_nivel_acesso_id'])
         db.session.add(usuario)
         db.session.commit()
         return redirect(url_for('usuarios_cadastrados'))
@@ -135,26 +136,30 @@ def edit_usuario(id):
                 #  Se o email já existir mandar de volta para o index
                 if u.email == request.form['email']:
                     # print('Esse e-mail já foi cadastrado')
-                    return redirect(url_for('index'))
+                    return redirect(url_for('produtos_cadastrados'))
                 #  Se o login já existir mandar de volta para o index
                 if u.login == request.form['login']:
                     # print('Esse login já foi cadastrado')
-                    return redirect(url_for('index'))
+                    return redirect(url_for('produtos_cadastrados'))
         usuario.nome = request.form['nome']
         usuario.telefone = request.form['telefone']
         usuario.email = request.form['email']
         usuario.login = request.form['login']
-        if request.form['senha'] == "":
-            # print('entrei aqui no IF request.form[senha] ', request.form['senha'])
-            usuario.senha = usuario.senha
-            # print('usuario.senha', usuario.senha)
-        else:
-            # print('entrei aqui no Else', request.form['senha'])
-            usuario.senha = usuario.criptografar_senha(request.form['senha'])
+        # if request.form['senha'] == "":
+        #     usuario.senha = usuario.senha
+        # else:
+        #     usuario.senha = usuario.criptografar_senha(request.form['senha'])
         usuario.id_nivel_acesso_id = request.form['id_nivel_acesso_id']
         db.session.commit()
         return usuarios_cadastrados()
-    return render_template('edit_usuario.html', usuario=usuario)
+    if usuario:
+        niveis = NivelAcesso.query.all()
+        nivel = NivelAcesso.query.get(usuario.id_nivel_acesso_id)
+        usuario.nome_nivel_acesso = nivel.nivel_acesso
+        return json.dumps(usuario.serialized())
+        print('Não existe esse usuario método GET!!!')
+    return redirect(url_for('usuarios_cadastrados'))
+
 
 
 @app.route("/deletar_usuario/<int:id>")
@@ -309,6 +314,7 @@ def add_cliente():
                 return redirect(url_for('clientes_cadastrados'))
         cliente = Cliente(request.form['nome'], request.form['telefone'],
                           request.form['data_pagamento'],
+                          request.form['valor_divida'],
                           request.form['cpf'],
                           request.form['observacao'])
         db.session.add(cliente)
@@ -323,6 +329,21 @@ def add_cliente():
 def clientes_cadastrados():
     clientes = Cliente.query.all()
     return render_template("clientes_cadastrados.html", clientes=clientes)
+
+@app.route("/add_nivel_admin")
+def add_nivel_admin():
+    admin = NivelAcesso('ADMINISTRADOR')  # ID 1
+    db.session.add(admin)
+    db.session.commit()
+    return "Nivel de Acesso ADMINISTRADOR adicionado com sucesso"
+
+
+@app.route("/add_nivel_op_caixa")
+def add_nivel_op_caixa():
+    op_caixa = NivelAcesso('OPERADOR DE CAIXA')  # ID 2
+    db.session.add(op_caixa)
+    db.session.commit()
+    return "Nivel de Acesso OPERADOR DE CAIXA adicionado com sucesso"
 
 
 @app.route("/edit_cliente/<int:id>", methods=['GET', 'POST'])
@@ -345,6 +366,8 @@ def edit_cliente(id):
             cliente.data_pagamento = cliente.data_pagamento
         else:
             cliente.data_pagamento = request.form['data_pagamento']
+
+        cliente.valor_divida = request.form['valor_divida']
         cliente.cpf = request.form['cpf']
         cliente.observacao = request.form['observacao']
         # cliente.aumentar_divida(150.00)

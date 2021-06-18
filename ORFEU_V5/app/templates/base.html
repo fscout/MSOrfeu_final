@@ -11,9 +11,8 @@
     {% endblock title %}
     </title>
 
-
     <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/base.css')}}">
     <script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
 
 
@@ -21,8 +20,8 @@
 </head>
 <body onload="formataMoeda()">
 
-    <header>
-        <a href="/"><img src="{{url_for('static', filename='images/logo.jpeg')}}" alt="MS-Orfeu"></a>
+    <header class="meu-menu">
+        <a href="/"><img src="{{url_for('static', filename='img/logoBessa.png')}}" class="logobessa" alt="MS-Orfeu"></a>
         <nav>
 
             {% if current_user.is_authenticated %}
@@ -36,20 +35,57 @@
                 <li><a class="fill" href="{{ url_for('logout') }}">Logout</a></li>
 
                 {% else %}
-                <li><a class="fill" href="/listar_categorias">Categorias</a></li>
-                <li><a class="fill" href="/listar_marcas">Marcas</a></li>
-                <li><a class="fill" href="/listar_medidas">Medidas</a></li>
-                <li><a class="fill" href="/add_produto_full">Cadastrar Produtos</a></li>
-                <li><a class="fill" href="/produtos_cadastrados">Consultar Produtos</a></li>
-                <li><a class="fill" href="/add_usuario_full">Cadastrar Usuários</a></li>
-                <li><a class="fill" href="/usuarios_cadastrados">Consultar Usuários</a></li>
-                <li><a class="fill" href="/add_cliente_full">Cadastrar Clientes</a></li>
-                <li><a class="fill" href="/clientes_cadastrados">Consultar Clientes</a></li>
-                <li><a class="fill" href="/tipo_pagamento">Tipo de pagamento</a></li>
+
+
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      CMM
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="/listar_categorias">Categorias</a></li>
+                      <li><a class="dropdown-item" href="/listar_marcas">Marcas</a></li>
+                      <li><a class="dropdown-item" href="/listar_medidas">Medidas</a></li>
+                    </ul>
+
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Produtos
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="/add_produto_full">Cadastrar Produtos</a></li>
+                        <li><a class="dropdown-item" href="/produtos_cadastrados">Consultar Produtos</a></li>
+                    </ul>
+
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Usuários
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="/add_usuario_full">Cadastrar Usuários</a></li>
+                        <li><a class="dropdown-item" href="/usuarios_cadastrados">Consultar Usuários</a></li>
+                    </ul>
+
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Clientes
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="/add_cliente_full">Cadastrar Clientes</a></li>
+                        <li><a class="dropdown-item" href="/clientes_cadastrados">Consultar Clientes</a></li>
+                    </ul>
+
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Vendas
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="/add_venda">Nova Venda</a></li>
+                        <li><a class="dropdown-item" href="/listar_vendas">Relatorio de vendas</a></li>
+                    </ul>
+
+                </div>
+
+                <!--<li><a class="fill" href="/tipo_pagamento">Tipo de pagamento</a></li>
                 <li><a class="fill" href="/teste1">teste1</a></li>
                 <li><a class="fill" href="/add_venda/0">Adicionar venda</a></li>
 
-                <li><a class="fill" href="{{ url_for('logout') }}">Logout</a></li>
+                <li><a class="fill" href="{{ url_for('logout') }}">Logout</a></li>-->
                 {% endif %}
 
                 {% else %}
@@ -58,15 +94,20 @@
         </nav>
     </header>
 
-
         {% block main %}
 
         {% endblock main %}
 
 
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/scripts.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/popper.js')}}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/scripts.js')}}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/jquery.js')}}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/popper.js')}}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
 </body>
 </html>

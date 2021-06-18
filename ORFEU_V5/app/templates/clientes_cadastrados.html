@@ -8,8 +8,6 @@
 
 {% block main %}
 
-
-
 <div class="container" align="center">
     <h1 align="center" class="fill2" >Clientes Cadastrados</h1>
     <table border="1" width="70%" class="table table-striped">
@@ -20,42 +18,31 @@
                 <th class="fill2">DATA PAGAMENTO</th>
                 <th class="fill2">CPF</th>
                 <th class="fill2">OBSERVACAO</th>
-                <th class="fill2">STATUS</th>
-                <th class="fill2">DATA DA ÚLTIMA COMPRA</th>
                 <th class="fill2">VALOR DA DÍVIDA</th>
                 <th class="fill2">ATIVO/INATIVO</th>
             </tr>
         </thead>
         <tbody>
-            <!-- c = cliente -->
             {% for c in clientes %}
             <tr>
                 <td>{{c.nome}}</td>
                 <td>{{c.telefone}}</td>
-                <td>{{c.cpf}}</td>
-                <td class="valor">{{c.valor_divida}}</td>
                 <td >{{c.data_pagamento}}</td>
-                <td>{{c.data_ultima_compra}}</td>
+                <td>{{c.cpf}}</td>
                 <td>{{c.observacao}}</td>
-                <td>{{c.verificar_status()}}</td>
+                <td class="valor">{{c.valor_divida}}</td>
                 <td>{{c.verificar_inativado()}}</td>
+
                 <td>
                     <a href="/edit_cliente/{{c.id}}"> <img src="{{url_for('static', filename='images/editar.png')}}"></a>
-                    <a href="/deletar_cliente/{{c.id}}"> <img src="{{url_for('static', filename='images/remover.png')}}"></a>
-                    
-                    {% if c.verificar_status() == '999' %}
-                        <a href="/desbloquear_cliente/{{c.id}}"><button>ATIVAR CÓDIGO 100</button></a>
-                        {% else %}
-                        <a href="/bloquear_cliente/{{c.id}}"><button>ATIVAR CÓDIGO 999</button></a>
-                    {% endif %}
-                    <p></p>
+                </td>
 
+                <td>
                     {% if c.verificar_inativado() == 'INATIVO' %}
                         <a href="/ativar_cliente/{{c.id}}"><button>ATIVAR CLIENTE</button></a>
                         {% else %}
                         <a href="/inativar_cliente/{{c.id}}"><button>INATIVAR CLIENTE</button></a>
                     {% endif %}
-    
                 </td>
             </tr>
             {% endfor %}
