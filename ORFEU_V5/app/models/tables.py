@@ -477,6 +477,8 @@ class Venda(db.Model):
 
     now = datetime.datetime.now()
 
+    nome_usuario = ""
+
     def __init__(self, data_venda, valor_total, id_usuario_id, cod_status_venda):
         self.data_venda = datetime.datetime(year=self.now.year,
                                             month=self.now.month,

@@ -912,7 +912,8 @@ def finalizar_venda(idVenda):
 @login_required
 def vendas_cadastrados():
     vendas = Venda.query.all()
-    print(vendas)
+    #for v in vendas:
+        
     return render_template("vendas.html", vendas=vendas)
 
 #DEF exibir dados da venda (modal) - Botão Detalhes Venda
@@ -925,8 +926,27 @@ def detalhes_venda(id_venda):
     vltotal = 0
     for p in produtos_venda:
         vltotal += p.valor_total  
-    return produtos_venda
+    return render_template ("detalhesVenda.html", produtos_venda = produtos_venda)
 
+@app.route("/buscar_produto/<data>", methods=['GET', 'POST'])
+@login_required
+def buscar_produto(data):
+    # print('Teste no data', data)
+    obj = json.loads(data)
+    # print(obj['codigo_barras'].upper(), " Aqui estou")
+    nome_codigo_produto = obj['nome_codigo_produto'].upper()
+    produto = Produto.query.filter(db.or_(Produto.codigo_barras == nome_codigo_produto, Produto.descricao_produto == nome_codigo_produto)).first()
+    if produto != None:
+        return json.dumps(produto.serialized())
+    return json.dumps({"codigo_barras": 0})
+
+@app.route("/deletar_pagamento/<int:id>")
+@login_required
+def deletar_pagamento(id):
+    tipo_pagamento = TipoPagamento.query.get(id)
+    db.session.delete(tipo_pagamento)
+    db.session.commit()
+    return "Deletado"
 
 # print("# ********************** TESTES ADD PRODUTO NA VENDA ********************** #")
 # quantidade_prod = 1

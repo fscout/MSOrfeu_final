@@ -24,19 +24,27 @@
         <th class="fill2">Valor Total</th>
         <th class="fill2">Usuario</th>
         <!--th class="fill2">Cliente</th-->
-        <!--th class="fill2">Status</th-->
+        <th class="fill2">Detalhes Venda</th>
       </tr>
     </thead>
     <tbody>
       {% for v in vendas %}
+
+      {% if v.cod_status_venda == 300 %}
+
       <tr>
         <td>{{v.id}}</td>
         <td>{{v.data_venda}}</td>
         <td>{{v.valor_total}}</td>
         <td>{{v.id_usuario_id}}</td>
-        <!--td>{{v.id_cliente_id}}</td-->
-        <!--td>{{v.cod_status_venda}}</td-->
+
+        <td>
+          <a class="edit" href="/detalhes_venda/{{v.id}}">
+            <img style="width: 35px; height: 35px;" src="{{url_for('static', filename='img/detalhes.png')}}">
+          </a>
+        </td>
       </tr>
+      {% endif %}
       {% endfor %}
     </tbody>
   </table>

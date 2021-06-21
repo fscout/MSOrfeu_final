@@ -14,10 +14,11 @@
                     <div class="inputValores">
                         <form action="/add_prod_venda" method="POST">
                             <p>Quantidade <br>
-                                <input type="text" class="campotexto" id="quantidade_prod" name="quantidade_prod" required>
+                                <input type="number" min="0" class="campotexto" id="quantidade_prod" name="quantidade_prod" required>
                             </p>
                             <p>Cod. de Barras <br>
-                                <input type="text" class="campotexto" id="cod_barras" name="cod_barras" required>
+                                <input type="text" class="campotexto" id="cod_barras" name="cod_barras" hidden>
+                                <input id="nome_codigo_produto" type="text" onchange="buscar_produto()" step="0.01" required>
                                 <input type="hidden" id="id_venda" name="id_venda" value={{venda}}>
                             </p>
                             <p>
@@ -55,11 +56,11 @@
                                 <td>{{p.valor_produto}}</td>
                                 <td>{{p.valor_desconto}}</td>
                                 <td>{{p.quantidade_produto}}</td>
-                                <td>{{p.valor_desconto * p.quantidade_produto}}</td>
+                                <td step="0.001">{{p.valor_desconto * p.quantidade_produto}}</td>
                                 <td>{{p.valor_total}}</td>
 
                                 <td>
-                                    <a class="edit" data-toggle="modal" data-target="#exampleModal"
+                                    <a class="edit" href="/detalhes_venda" data-toggle="modal" data-target="#exampleModal"
                                         onclick="setaDadosModal('{{p.id}}')">
                                         <img src="{{url_for('static', filename='images/editar.png')}}">
                                     </a>
@@ -183,5 +184,55 @@
         $("#finalizarVenda").click(function () {
             $.get("/receivedata", {"myData": myData});
         });
+
+        function buscar_produto() {
+
+        
+        nome_codigo_produto = document.getElementById('nome_codigo_produto')
+        cod_barras = document.getElementById('cod_barras')
+
+        data = {
+            "nome_codigo_produto": nome_codigo_produto.value
+        };
+
+        data = JSON.stringify(data)
+
+        route = "/buscar_produto/" + data
+
+        $.get(route, function (retorno) {
+            var obj = JSON.parse(retorno);
+            if (obj.codigo_barras != 0) {
+                id_produto = obj.id
+
+                cod_barras.value = obj.codigo_barras
+                valor_desconto_bd = obj.valor_desconto
+
+                qtd_produto = document.getElementById('qtd_produto')
+                preco_item_venda = document.getElementById('preco_item_venda')
+                total_itens = document.getElementById('total_itens')
+                valor_desconto = document.getElementById('valor_desconto')
+
+                nome_codigo_produto.value = obj.descricao_produto
+                preco_item_venda.value = obj.preco_venda
+                valor_desconto.value = obj.valor_desconto
+                total_itens.value = obj.preco_venda
+
+                // alterar_preco()
+                // alert(obj.codigo_barras)
+                // alert(obj.descricao_produto)
+                // alert(obj.preco_venda)
+                // alert(obj.valor_desconto)
+            }
+            else {
+                alert("Produto não encontrado!")
+                zerar_variaveis()
+            }
+        });
+        }
+        function zerar_variaveis() {
+        nome_codigo_produto.value  = ""
+        }
     </script>
+
+
 {% endblock main %}

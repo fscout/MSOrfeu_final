@@ -1,70 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="img/logoBessa.png">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/venda.css">
-    <title>Detalhes da Venda</title>
-</head>
-<body>
-    <form>
-        <div id="topo">
-            <img src="img/logoBessa.png" class="logo-bessa">
-            <img src="img/login.png" class="login">
-        
+{% extends 'base.html' %}
 
-            <div class="dropdown">
-                <button href="" class="btn btn-secondary dropdown-toggle btn-vendas" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                    Caixa
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><button href="" class="dropdown-item" type="button">Abertura</button></li>
-                    <li><button href="" class="dropdown-item" type="button">Fechamento</button></li>
-                </ul>
+{% block title %}
+{{ super() }} - Categoria
+{% endblock title %}
 
-                <button href="" class="btn btn-secondary dropdown-toggle btn-vendas" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                    Vendas
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><button href="" class="dropdown-item" type="button">Nova Venda</button></li>
-                    <li><button href="" class="dropdown-item" type="button">Detalhes Venda</button></li>
-                </ul>
 
-                <button href="" class="btn btn-secondary dropdown-toggle btn-produtos" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                    Produtos
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><button href="" class="dropdown-item" type="button">Cadastrar Produto</button></li>
-                    <li><button href="" class="dropdown-item" type="button">Estoque</button></li>
-                </ul>
+{% block main %}
 
-                <button href="" class="btn btn-secondary dropdown-toggle btn-usuarios" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                    Usuários
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><button href="" class="dropdown-item" type="button">Cadastrar Usuário</button></li>
-                    <li><button href="" class="dropdown-item" type="button">Usuários Cadastrados</button></li>
-                </ul>
+<div class="container" style align="center">
 
-                <button href="" class="btn btn-secondary dropdown-toggle btn-clientes" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                    Clientes
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><button href="" class="dropdown-item" type="button">Cadastrar Clientes</button></li>
-                    <li><button href="" class="dropdown-item" type="button">Clientes Cadastrados</button></li>
-                </ul>
-            </div>
-        </div>
-    </form>
+    <h1 align="center" class="fill2">Detalhes da Vendas</h1>
+    <table border="1" width="70%" class="table table-striped">
+      <thead>
+        <tr>
+          <th class="fill2">#</th>
+          <th class="fill2">Descrição</th>
+          <th class="fill2">Vl. Unitário</th>
+          <th class="fill2">Desconto</th>
+          <th class="fill2">Quantidade</th>
+          <th class="fill2">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in produtos_venda %}
+        <tr>
+          <td>{{v.id}}</td>
+          <td>{{v.descricao_produto}}</td>
+          <td>{{v.valor_produto}}</td>
+          <td>{{v.valor_desconto}}</td>
+          <td>{{v.quantidade_produto}}</td>
+          <td>{{v.valor_total}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="bootstrap/js/bootstrap.popper.min.js"></script>
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock main %}
